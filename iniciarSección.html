@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Robert</title>
+    <link rel="stylesheet" href="iniciarSeccion.css">
+    <link rel="icon" href="imagenes/imgLogo-transparente2.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-box">
+            <img class="logo" src="imagenes/imgLogo-transparente2.png" />
+
+            <div class="login-container">
+                <h1>Tienda Robert</h1>
+                <p class="subtitle">¡Te damos la bienvenida!. Inicia sección</p>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required />
+                    </div>
+                    <a class="enlace-registrarse">¿Has olvidado tu contraseña?</a>
+                     <p style="display: flex; justify-content: center;">Si no tienes cuenta registrate  <a class="aqui"> aquí</a> </p>
+                    <button type="submit" class="btn">Iniciar sección</button>
+                    <div class="error" id="error"></div>
+                </form>
+               
+
+
+
+
+            </div>
+
+            <div id="cookieBanner" class="cookie-banner">
+                <p>Utilizamos cookies para mejorar la experiencia del usuario. Al continuar en nuestro sitio, aceptas el
+                    uso de
+                    cookies.</p>
+                <button onclick="acceptCookies()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        // Configuración Firebase 
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQJwuuEeEnnrWLuCQbq4u4R4GFcP3k1jc",
+            authDomain: "iniciar-seccion-6b53b.firebaseapp.com",
+            projectId: "iniciar-seccion-6b53b",
+            storageBucket: "iniciar-seccion-6b53b.firebasestorage.app",
+            messagingSenderId: "510922921187",
+            appId: "1:510922921187:web:c4379c0b8ade8d1214a1d6",
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+
+
+    </script>
+</body>
+
+</html>

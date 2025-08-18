@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda Robert</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <link rel="icon" href="imagenes/imgLogo-transparente2.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <header>
+    <div class="left-content">
+      <div class="lang-selector">
+        <button id="lang-btn">
+          <img src="https://flagcdn.com/es.svg" alt="ES" class="flag" />
+          <span id="lang-label">ES</span>
+        </button>
+        <ul id="lang-menu" class="lang-menu">
+          <li data-lang="es"><img src="https://flagcdn.com/es.svg" alt="ES" class="flag" /> Español
+          </li>
+          <li data-lang="en"><img src="https://flagcdn.com/gb.svg" alt="EN" class="flag" /> English
+          </li>
+        </ul>
+        <div class="menu-toggle" style="margin-left: 20px; font-weight: bolder;">☰ MENÚ</div>
+      </div>
+    </div>
+
+    <div class="center-content" style="display: flex;">
+      <p style="padding-right: 40px;"> <i class="fa-solid fa-phone"></i> (+34) 637635577</p>
+      <p><i class="fa-solid fa-envelope"></i> designerbrm@gmail.com</p>
+    </div>
+
+    <div class="right-content">
+      <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass" id="search-toggle" onclick="searchProductos()"
+          style="color: black;font-weight: 600; margin-right: 10px;margin-left: 15px; cursor: pointer;"></i> <input
+          type="text" id="search-box" placeholder="Buscar productos...">
+      </div>
+
+      <div class="icons">
+        <a href="iniciarSección.html" style="margin-left: 20px;"><i class="fas fa-user" style="color: black;"></i></a></button>
+        <button id="favorites-btn" title="Favoritos"><i class="fas fa-heart"></i></button>
+        <button id="cart-btn" title="Carrito"><i class="fas fa-shopping-cart"></i><span
+            id="cart-count">0</span></button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Texto animado -->
+  <div class="animated-text-container" id="services">
+    <div class="animated-text">
+      Envío Estándar gratuito en cualquier compra superior a 40 €
+    </div>
+  </div>
+
+
+  <!-- Slider -->
+
+  <div class="slider">
+    <div class="slides">
+
+      <!-- Slide 1 -->
+      <div class="slide active" style="background-image: url('imagenes/1.png')">
+        <div class="slide-content">
+          <h2>¡Envio gratis!</h2>
+          <p>En compras superiores de 40€ </p>
+          <button class="buy-btn">Comprar</button>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide" style="background-image: url('imagenes/8.png')">
+        <div class="slide-content">
+          <h2> Recibe desde casa </h2>
+          <p>Todo lo que quieres, directo a tu hogar</p>
+          <button class="buy-btn">Comprar</button>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide" style="background-image: url('imagenes/3.png')">
+        <div class="slide-content">
+          <h2>Tu compra en segundos </h2>
+          <p>Elige, haz clic y disfruta </p>
+          <button class="buy-btn">Comprar</button>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide" style="background-image: url('imagenes/4.png')">
+        <div class="slide-content">
+          <h2>Calidad y buenos precios</h2> 
+          <p>Solo por tiempo limitado</p>
+          <button class="buy-btn">Comprar</button>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide" style="background-image: url('imagenes/5.png')">
+        <div class="slide-content">
+          <h2>Lo que necesitas hoy</h2>
+          <p>Conoce nuestra nueva colección</p>
+          <button class="buy-btn">Comprar</button>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide active" style="background-image: url('imagenes/6.png')">
+        <div class="slide-content">
+          <h2>Título 1</h2>
+          <p>Subtítulo descriptivo del producto</p>
+          <button class="buy-btn">Comprar</button>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide" style="background-image:url('imagenes/7.png')">
+        <div class="slide-content">
+          <h2>Título 7</h2>
+          <p>Lo mejor para tu día a día</p>
+          <button class="buy-btn">Comprar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Botones de navegación -->
+    <div class="dots">
+      <span class="dot active" onclick="currentSlide(0)"></span>
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+      <span class="dot" onclick="currentSlide(5)"></span>
+      <span class="dot" onclick="currentSlide(6)"></span>
+    </div>
+  </div>
+
+
+  <!-- Products -->
+
+  <div class="descriptive-text">
+    <p style="font-size: 30px; text-align: center; color: rgb(7, 5, 10); font-weight: bolder; margin-top: 15px; margin-bottom: 15px;">
+      ¡Descubre lo mejor de nuestra colección!</p>
+  </div>
+
+  <div class="products-container">
+
+    <!-- Filters -->
+
+    <div class="filters" style="background:linear-gradient(135deg, #f18e54, #eeb07d); color: rgb(243, 208, 175);">
+      <h3>Filtrar productos</h3>
+      <hr>
+      </hr>
+
+      <label for="categoria" style="margin-top: 20px;">Categoría:</label>
+      <select id="categoria">
+        <option value="all">Todas</option>
+        <option value="ropa">Ropa</option>
+        <option value="calzado">Calzado</option>
+        <option value="electronica">Electrónica</option>
+        <option value="hogar">Hogar</option>
+      </select>
+
+      <label for="genero">Género:</label>
+      <select id="genero">
+        <option value="all">Todos</option>
+        <option value="mujer">Mujer</option>
+        <option value="hombre">Hombre</option>
+      </select>
+
+      <label for="orden">Ordenar por:</label>
+      <select id="orden">
+        <option value="recientes">Más recientes</option>
+        <option value="precio-asc">Precio: menor a mayor</option>
+        <option value="precio-desc">Precio: mayor a menor</option>
+        <option value="destacados">Destacados</option>
+      </select>
+
+      <label>Rango de precio:</label>
+      <input type="number" id="precio-min" placeholder="Mínimo">
+      <input type="number" id="precio-max" placeholder="Máximo">
+
+      <button onclick="filtrarProductos()"
+        style="background-color: rgb(245, 191, 141); padding: 10px; border:none; border-radius: 5px; margin-top: 17px;">Aplicar
+        filtros</button>
+    </div>
+
+    <!-- Lista de productos -->
+    <div class="lista-productos" id="lista-productos">
+      <!-- Mensaje de no encontrados -->
+      <div id="mensaje" class="mensaje" style="display: none;">
+        <i class="fa-solid fa-x" style="color: red; text-shadow:1px 1px 0 black, -1px 1px 0 black, 1px -1px 0 black,
+    -1px -1px 0 black; /* Sombras que simulan el borde */"></i> No se encontraron productos con ese nombre, intentelo de nuevo.
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</body>
+
+</html>
