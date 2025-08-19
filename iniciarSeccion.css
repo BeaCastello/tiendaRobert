@@ -103,8 +103,7 @@ color: rgb(241, 159, 34);
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
-    margin-top: 20px;
-}
+    }
 
 .btn:hover {
     background: #0056b3;
