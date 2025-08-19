@@ -138,6 +138,13 @@ header {
 
 }
 
+.card img {
+  width: 79%;
+}
+
+
+
+
 .mensaje {
   text-align: center;
   color: rgb(12, 12, 12);
