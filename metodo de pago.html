@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Checkout con Stripe</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;background:#f6f8fb;margin:0;padding:24px}
+  .container{max-width:900px;margin:0 auto;display:flex;gap:20px;flex-wrap:wrap}
+  .panel{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06);flex:1;min-width:320px}
+  h2{margin:0 0 8px}
+  .summary{width:320px}
+  label{display:block;margin:10px 0 6px;font-size:14px}
+  input, .StripeElement {width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ee;box-sizing:border-box}
+  .pay-btn{margin-top:12px;padding:12px;border-radius:8px;border:none;background:#0b79d0;color:#fff;font-weight:600;cursor:pointer;width:100%}
+  .muted{color:#6b7280;font-size:13px}
+  #card-errors{color:#ef4444;margin-top:8px}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="panel">
+    <h2>Pagar con tarjeta</h2>
+    <p class="muted">Formulario seguro con Stripe Elements. No se almacenan datos de tarjeta en tu servidor.</p>
+
+    <form id="payment-form">
+      <label for="name">Nombre en la tarjeta</label>
+      <input id="name" type="text" placeholder="María Pérez" required>
+
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="correo@ejemplo.com" required>
+
+      <label for="card-element">Tarjeta</label>
+      <div id="card-element" class="StripeElement" style="padding:10px;border-radius:8px;border:1px solid #e6e9ee"></div>
+
+      <div id="card-errors" role="alert"></div>
+
+      <button id="submit" class="pay-btn">Pagar <span id="amount-label">104.00 €</span></button>
+    </form>
+
+    <div id="payment-result" class="hidden" style="margin-top:14px"></div>
+  </div>
+
+  <div class="panel summary">
+    <h3>Resumen del pedido</h3>
+    <div class="muted">Artículos: 3</div>
+    <div style="margin-top:8px;font-weight:700">Total: <span id="total">104.00 €</span></div>
+    <p class="muted" style="margin-top:12px">En un entorno real, el total y artículos deben calcularse y validarse en el servidor.</p>
+  </div>
+</div>
+
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  // CONFIG: publica tu clave
+  const STRIPE_PUBLISHABLE_KEY = "pk_test_TU_PUBLISHABLE_KEY";
+
+  // Monto de ejemplo (coincidir con lo que envíes al servidor)
+  const ORDER_AMOUNT = 104.00;
+  const CURRENCY = 'eur';
+  document.getElementById('amount-label').textContent = ORDER_AMOUNT.toFixed(2) + ' €';
+  document.getElementById('total').textContent = ORDER_AMOUNT.toFixed(2) + ' €';
+
+  const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+  const elements = stripe.elements();
+
+  // Estilo de Elements
+  const style = {
+    base: {
+      color: "#111827",
+      fontSize: "15px",
+      '::placeholder': { color: '#9ca3af' },
+    }
+  };
+
+  const card = elements.create("card", { style });
+  card.mount("#card-element");
+
+  // Mensajes de error en tiempo real
+  const cardErrors = document.getElementById('card-errors');
+  card.on('change', event => {
+    if (event.error) cardErrors.textContent = event.error.message;
+    else cardErrors.textContent = '';
+  });
+
+  // Al enviar: pedimos al servidor el client_secret y confirmamos
+  const form = document.getElementById('payment-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.getElementById('submit').disabled = true;
+
+    // Llamada al backend para crear PaymentIntent
+    const resp = await fetch('http://localhost:4242/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: ORDER_AMOUNT, currency: CURRENCY })
+    });
+
+    const data = await resp.json();
+    if (!resp.ok) {
+      showResult('Error al crear PaymentIntent: ' + (data.error || 'error desconocido'), true);
+      document.getElementById('submit').disabled = false;
+      return;
+    }
+
+    const clientSecret = data.clientSecret;
+
+    // Confirmar con la tarjeta usando Elements
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: card,
+        billing_details: {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value
+        }
+      }
+    });
+
+    if (error) {
+      // Mostrar mensaje de error
+      showResult('Pago fallido: ' + error.message, true);
+      document.getElementById('submit').disabled = false;
+    } else {
+      // paymentIntent.status === 'succeeded' normalmente
+      showResult('Pago realizado con éxito. ID: ' + paymentIntent.id, false);
+      // Aquí actualiza tu UI/DB, limpiar carrito, etc.
+    }
+  });
+
+  function showResult(msg, isError) {
+    const el = document.getElementById('payment-result');
+    el.classList.remove('hidden');
+    el.style.color = isError ? '#ef4444' : '#10b981';
+    el.textContent = msg;
+  }
+</script>
+</body>
+</html>

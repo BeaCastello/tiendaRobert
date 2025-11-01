@@ -34,16 +34,11 @@
       <p><i class="fa-solid fa-envelope"></i> designerbrm@gmail.com</p>
     </div>
 
-    <div class="right-content">
-      <div class="search-container">
-        <i class="fa-solid fa-magnifying-glass" id="search-toggle" onclick="searchProductos()"
-          style="color: black;font-weight: 600; margin-right: 10px;margin-left: 15px; cursor: pointer;"></i> <input
-          type="text" id="search-box" placeholder="Buscar productos...">
-      </div>
+    <div class="right-content">      
 
       <div class="icons">
-        <a href="iniciarSección.html" style="margin-left: 20px;"><i class="fas fa-user" style="color: black;"></i></a></button>
-        <button id="favorites-btn" title="Favoritos"><i class="fas fa-heart"></i></button>
+        <a href="iniciarSección.html"><i class="fas fa-user" style="color: black; margin-right: 10px;"></i></a></button>
+        <button id="favorites-btn" title="Favoritos"><i class="fas fa-heart" style="margin-right: 10px;"></i></button>
         <button id="cart-btn" title="Carrito"><i class="fas fa-shopping-cart"></i><span
             id="cart-count">0</span></button>
       </div>
@@ -94,7 +89,7 @@
       <!-- Slide 4 -->
       <div class="slide" style="background-image: url('imagenes/4.png')">
         <div class="slide-content">
-          <h2>Calidad y buenos precios</h2> 
+          <h2>Calidad y buenos precios</h2>
           <p>Solo por tiempo limitado</p>
           <button class="buy-btn">Comprar</button>
         </div>
@@ -129,7 +124,7 @@
 
     </div>
 
-    <!-- Botones de navegación -->
+    <!-- Botones de slider -->
     <div class="dots">
       <span class="dot active" onclick="currentSlide(0)"></span>
       <span class="dot" onclick="currentSlide(1)"></span>
@@ -141,66 +136,65 @@
     </div>
   </div>
 
-
-  <!-- Products -->
-
-  <div class="descriptive-text">
-    <p style="font-size: 30px; text-align: center; color: rgb(7, 5, 10); font-weight: bolder; margin-top: 15px; margin-bottom: 15px;">
-      ¡Descubre lo mejor de nuestra colección!</p>
-  </div>
-
   <div class="products-container">
+    <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 8px;">Filtrar productos</h3></div>
 
-    <!-- Filters -->
+ <!-- Contenedor de busquedas-->
 
-    <div class="filters" style="background:linear-gradient(135deg, #f18e54, #eeb07d); color: rgb(243, 208, 175);">
-      <h3>Filtrar productos</h3>
-      <hr>
-      </hr>
-
-      <label for="categoria" style="margin-top: 20px;">Categoría:</label>
-      <select id="categoria">
-        <option value="all">Todas</option>
-        <option value="ropa">Ropa</option>
-        <option value="calzado">Calzado</option>
-        <option value="electronica">Electrónica</option>
-        <option value="hogar">Hogar</option>
-      </select>
-
-      <label for="genero">Género:</label>
-      <select id="genero">
-        <option value="all">Todos</option>
-        <option value="mujer">Mujer</option>
-        <option value="hombre">Hombre</option>
-      </select>
-
-      <label for="orden">Ordenar por:</label>
-      <select id="orden">
-        <option value="recientes">Más recientes</option>
-        <option value="precio-asc">Precio: menor a mayor</option>
-        <option value="precio-desc">Precio: mayor a menor</option>
-        <option value="destacados">Destacados</option>
-      </select>
-
-      <label>Rango de precio:</label>
-      <input type="number" id="precio-min" placeholder="Mínimo">
-      <input type="number" id="precio-max" placeholder="Máximo">
-
-      <button onclick="filtrarProductos()"
-        style="background-color: rgb(245, 191, 141); padding: 10px; border:none; border-radius: 5px; margin-top: 17px;">Aplicar
-        filtros</button>
-    </div>
-
-    <!-- Lista de productos -->
-    <div class="lista-productos" id="lista-productos">
-      <!-- Mensaje de no encontrados -->
-      <div id="mensaje" class="mensaje" style="display: none;">
-        <i class="fa-solid fa-x" style="color: red; text-shadow:1px 1px 0 black, -1px 1px 0 black, 1px -1px 0 black,
-    -1px -1px 0 black; /* Sombras que simulan el borde */"></i> No se encontraron productos con ese nombre, intentelo de nuevo.
-      </div>
+<div class="filters">
+  <div class="dropdown" data-filter="categoria">
+    <button class="dropbtn">Categoría ▾</button>
+    <div class="dropdown-content">
+      <a href="#" data-value="all">Todas</a>
+      <a href="#" data-value="Ropa">Ropa</a>
+      <a href="#" data-value="Calzado">Calzado</a>
+      <a href="#" data-value="Electrónica">Electrónica</a>
+      <a href="#" data-value="Hogar">Hogar</a>
     </div>
   </div>
 
+  <div class="dropdown" data-filter="genero">
+    <button class="dropbtn">Género ▾</button>
+    <div class="dropdown-content">
+      <a href="#" data-value="all">Todos</a>
+      <a href="#" data-value="Mujer">Mujer</a>
+      <a href="#" data-value="Hombre">Hombre</a>
+    </div>
+  </div>
+
+  <div class="dropdown" data-filter="precio">
+    <button class="dropbtn">Ordenar por ▾</button>
+    <div class="dropdown-content">
+      <a href="#" data-value="relevancia">Relevancia</a>
+      <a href="#" data-value="asc">Menor a mayor precio</a>
+      <a href="#" data-value="desc">Mayor a menor precio</a>
+    </div>
+  </div>
+
+  <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
+</div>
+
+<div class="products-container" id="productsContainer"></div>
+
+<div class="pagination">
+  <button id="prevBtn">⬅ Anterior</button>
+  <button id="nextBtn">Siguiente ➡</button>
+</div>
+
+<!-- Sección de Favoritos (visible siempre) -->
+
+<section id="favoritosSection" style="padding: 40px; background:#fafafa;">
+  <h2 style="text-align:center; font-size: 34px; margin-bottom: 20px; color: rgb(184, 108, 21);">------------ << Mis Favoritos >> ------------</h2>
+  <div id="favoritosContainer" class="products-container"></div>
+</section>
+
+<!-- 🛒 Panel del Carrito -->
+  <div id="cartPanel">
+    <h2>🛒 Tu Carrito</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal"></div>
+    <button class="checkout-btn" id="checkoutBtn">Finalizar compra</button>
+  </div>
 
 
 

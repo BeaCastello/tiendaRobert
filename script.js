@@ -44,88 +44,6 @@ function updateTexts() {
   });
 }
 
-// Carrito de compra
-let cartCount = 0;
-
-document.addEventListener("DOMContentLoaded", () => {
-  const searchToggle = document.getElementById("search-toggle");
-  const searchBox = document.getElementById("search-box");
-
-  searchToggle.addEventListener("click", () => {
-    searchBox.classList.toggle("visible");
-
-    if (searchBox.classList.contains("visible")) {
-      searchBox.focus();
-    } else {
-      searchBox.value = "";
-    }
-  });
-});
-
-
-// Mostrar/ocultar buscador en el header
-document.getElementById("search-toggle").addEventListener("click", function () {
-  const searchBox = document.getElementById("search-box");
-  searchBox.classList.toggle("hidden");
-  if (!searchBox.classList.contains("hidden")) {
-    searchBox.focus();
-  } else {
-    searchBox.value = "";
-    searchProductos();
-  }
-});
-
-// Busqueda de productos
-const productos1 = [
-  { id: 1, nombre: "Camiseta", categoria: "ropa", genero: "hombre", precio: 15, destacado: true, imagen: "imagenes/camisetas.png" },
-  { id: 2, nombre: "Pantalón", categoria: "ropa", genero: "hombre", precio: 25, destacado: false, imagen: "imagenes/pantalon.png" },
-  { id: 3, nombre: "Vestido", categoria: "ropa", genero: "mujer", precio: 40, destacado: true, imagen: "imagenes/vestido.png" },
-  { id: 4, nombre: "Smartphone", categoria: "electronica", genero: "todos", precio: 250, destacado: true, imagen: "imagenes/Smartphone.png" },
-  { id: 5, nombre: "Laptop", categoria: "electronica", genero: "todos", precio: 800, destacado: true, imagen: "imagenes/laptop.png" },
-  { id: 6, nombre: "Silla", categoria: "hogar", genero: "todos", precio: 45, destacado: false, imagen: "imagenes/silla.png" },
-  { id: 7, nombre: "Zapatillas de Mujer", categoria: "calzado", genero: "mujer", precio: 50, destacado: true, imagen: "imagenes/zapatillas.png" },
-  { id: 8, nombre: "Escritorio", categoria: "hogar", genero: "todos", precio: 90, destacado: true, imagen: "imagenes/escritorio.png" },
-  { id: 9, nombre: "Reloj Inteligente", categoria: "electronica", genero: "todos", precio: 50, destacado: true, imagen: "imagenes/relojes.png" },
-  { id: 10, nombre: "Zapatillas de Hombre", categoria: "calzado", genero: "hombre", precio: 50, destacado: true, imagen: "imagenes/zapatillas_hombre.png" },
-];
-
-
-const lista = document.getElementById("lista-productos");
-const inputBusqueda = document.getElementById("search-box");
-const mensaje = document.getElementById("mensaje");
-
-function searchProductos(filtro = "") {
-  lista.innerHTML = "";
-  lista.appendChild(mensaje);
-      mensaje.style.display = "none";
-  const resultados = productos1.filter(p =>
-    p.nombre.toLowerCase().includes(filtro.toLowerCase())
-  );
-
-  if (resultados.length === 0) {
-        mensaje.style.display = "block"; // Mostrar mensaje si no hay productos
-        return; }
-
-  resultados.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "producto";
-    card.innerHTML = `
-          <img src="${p.imagen}" alt="${p.nombre}">
-          <h4>${p.nombre}</h4>
-          <p>$${p.precio}</p>
-          <button>Comprar</button>
-        `;
-    lista.appendChild(card);
-  });
-}
-
-inputBusqueda.addEventListener("input", (e) => {
-  searchProductos(e.target.value);
-});
-
-// Buscar producto
-searchProductos();
-
 // Slider
 
 let currentIndex = 0;
@@ -152,70 +70,231 @@ setInterval(() => {
 
 
 
-// Filtrado
+// DATOS DE PRODUCTOS
 
 const productos = [
-  { id: 1, nombre: "Camiseta", categoria: "ropa", genero: "hombre", precio: 15, destacado: true, imagen: "imagenes/camisetas.png" },
-  { id: 2, nombre: "Pantalón", categoria: "ropa", genero: "hombre", precio: 25, destacado: false, imagen: "imagenes/pantalon.png" },
-  { id: 3, nombre: "Vestido", categoria: "ropa", genero: "mujer", precio: 40, destacado: true, imagen: "imagenes/vestido.png" },
-  { id: 4, nombre: "Smartphone", categoria: "electronica", genero: "todos", precio: 250, destacado: true, imagen: "imagenes/Smartphone.png" },
-  { id: 5, nombre: "Laptop", categoria: "electronica", genero: "todos", precio: 800, destacado: true, imagen: "imagenes/laptop.png" },
-  { id: 6, nombre: "Silla", categoria: "hogar", genero: "todos", precio: 45, destacado: false, imagen: "imagenes/silla.png" },
-  { id: 7, nombre: "Zapatillas de Mujer", categoria: "calzado", genero: "mujer", precio: 50, destacado: true, imagen: "imagenes/zapatillas.png" },
-  { id: 8, nombre: "Escritorio", categoria: "hogar", genero: "todos", precio: 90, destacado: true, imagen: "imagenes/escritorio.png" },
-  { id: 9, nombre: "Reloj Inteligente", categoria: "electronica", genero: "todos", precio: 50, destacado: true, imagen: "imagenes/relojes.png" },
-  { id: 10, nombre: "Zapatillas de Hombre", categoria: "calzado", genero: "hombre", precio: 50, destacado: true, imagen: "imagenes/zapatillas_hombre.png" },
+  { nombre: "Camiseta básica", categoria: "Ropa", genero: "Hombre", precio: 20, img: "imagenes/camisetas.png" },
+  { nombre: "Zapatillas deportivas", categoria: "Calzado", genero: "Mujer", precio: 60, img: "imagenes/zapatillas.png" },
+  { nombre: "Auriculares Bluetooth", categoria: "Electrónica", genero: "Todos", precio: 45, img: "imagenes/auriculares.png" },
+  { nombre: "Pantalón vaquero", categoria: "Ropa", genero: "Hombre", precio: 40, img: "imagenes/pantalon.png" },
+  { nombre: "Bolso de cuero", categoria: "Hogar", genero: "Mujer", precio: 90, img: "imagenes/bolso_cuero.png" },
+  { nombre: "Sudadera oversize", categoria: "Ropa", genero: "Mujer", precio: 35, img: "imagenes/sudadera.png" },
+  { nombre: "Reloj inteligente", categoria: "Electrónica", genero: "Todos", precio: 120, img: "imagenes/relojes.png" },
+  { nombre: "Zapatos de vestir", categoria: "Calzado", genero: "Hombre", precio: 70, img: "imagenes/calzado_vestir.png" },
+  { nombre: "Cafetera", categoria: "Hogar", genero: "Todos", precio: 110, img: "imagenes/cafetera.png" },
+  { nombre: "Auriculares Pro", categoria: "Electrónica", genero: "Todos", precio: 180, img: "imagenes/auricularespro.png" },
+  { nombre: "Chaqueta impermeable", categoria: "Ropa", genero: "Hombre", precio: 55, img: "imagenes/chaqueta impermiable.png" },
+  { nombre: "Sandalias verano", categoria: "Calzado", genero: "Mujer", precio: 30, img: "imagenes/sandalia_verano.png" },
+  { nombre: "Silla", categoria: "Hogar", genero: "Todos", precio: 110, img: "imagenes/silla1.png" },
+  { nombre: "Laptop", categoria: "Electrónica", genero: "Todos", precio: 180, img: "imagenes/laptop.png" },
+  { nombre: "Smartphone", categoria: "Electrónica", genero: "Todos", precio: 55, img: "imagenes/Smartphone.png" },
+  { nombre: "Vestido", categoria: "Ropa", genero: "Mujer", precio: 30, img: "imagenes/vestido.png" },
 ];
 
-function mostrarProductos(lista) {
-  const contenedor = document.getElementById('lista-productos');
-  contenedor.innerHTML = "";
-  lista.forEach(prod => {
-    const productoHTML = `
-                <div class="producto">
-                    <img src="${prod.imagen}" alt="${prod.nombre}">
-                    <h4>${prod.nombre}</h4>
-                    <p>$${prod.precio}</p>
-                    <button>Comprar</button>
-                </div>
-            `;
-    contenedor.innerHTML += productoHTML;
+
+//  VARIABLES GLOBALES
+
+let filtros = { categoria: "all", genero: "all", precio: "relevancia" };
+let paginaActual = 1;
+const productosPorPagina = 10;
+
+let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+
+// FILTROS
+
+document.querySelectorAll(".dropdown").forEach(drop => {
+  const button = drop.querySelector(".dropbtn");
+  const menu = drop.querySelector(".dropdown-content");
+  const tipo = drop.dataset.filter;
+
+  button.addEventListener("click", e => {
+    e.stopPropagation();
+    document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("show"));
+    drop.classList.toggle("show");
+  });
+
+  menu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      filtros[tipo] = a.dataset.value;
+      button.textContent = `${a.textContent} ▾`;
+      drop.classList.remove("show");
+    });
+  });
+});
+
+window.addEventListener("click", () => document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("show")));
+
+
+//  MOSTRAR PRODUCTOS
+
+function mostrarProductos() {
+  const cont = document.getElementById("productsContainer");
+  cont.innerHTML = "";
+
+  let lista = productos.filter(p =>
+    (filtros.categoria === "all" || p.categoria === filtros.categoria) &&
+    (filtros.genero === "all" || p.genero === filtros.genero)
+  );
+
+  if (filtros.precio === "asc") lista.sort((a, b) => a.precio - b.precio);
+  else if (filtros.precio === "desc") lista.sort((a, b) => b.precio - a.precio);
+
+  const inicio = (paginaActual - 1) * productosPorPagina;
+  const fin = inicio + productosPorPagina;
+  const pagina = lista.slice(inicio, fin);
+
+  pagina.forEach(p => {
+    const div = document.createElement("div");
+    div.classList.add("product");
+
+    const isFav = favoritos.some(f => f.nombre === p.nombre);
+    const heartColor = isFav ? "red" : "gray";
+    const heartIcon = isFav ? "fa-heart" : "fa-heart-circle-plus";
+
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.nombre}">
+      <h4>${p.nombre}</h4>
+      <p><strong>${p.precio} €</strong></p>
+      <button class="fav-btn"><i class="fas ${heartIcon}" style="color:${heartColor}; font-size:20px;"></i></button>
+      <button class="buy-btn"><img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px; margin-left: -15px; margin-right: 7px;"> Comprar ahora</button>
+    `;
+
+    div.querySelector(".fav-btn").addEventListener("click", () => toggleFavorito(p));
+    div.querySelector(".buy-btn").addEventListener("click", () => agregarAlCarrito(p));
+
+    cont.appendChild(div);
+  });
+
+  document.getElementById("prevBtn").disabled = paginaActual === 1;
+  document.getElementById("nextBtn").disabled = fin >= lista.length;
+}
+
+//  FAVORITOS
+
+function toggleFavorito(producto) {
+  const index = favoritos.findIndex(f => f.nombre === producto.nombre);
+  if (index >= 0) favoritos.splice(index, 1);
+  else favoritos.push(producto);
+
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+  mostrarProductos();
+  mostrarFavoritos();
+}
+
+function mostrarFavoritos() {
+  const cont = document.getElementById("favoritosContainer");
+  cont.innerHTML = "";
+
+  if (favoritos.length === 0) {
+    cont.innerHTML = '<p style="text-align:center;">No tienes productos favoritos aún.</p>';
+    return;
+  }
+
+  favoritos.forEach(p => {
+    const div = document.createElement("div");
+    div.classList.add("product");
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.nombre}">
+      <h4>${p.nombre}</h4>
+      <p><strong>${p.precio} €</strong></p>
+      <button class="remove-fav-btn"><i class="fas fa-trash" style="color:red;"></i></button>
+    `;
+    div.querySelector(".remove-fav-btn").addEventListener("click", () => toggleFavorito(p));
+    cont.appendChild(div);
   });
 }
 
-function filtrarProductos() {
-  const categoria = document.getElementById('categoria').value;
-  const genero = document.getElementById('genero').value;
-  const orden = document.getElementById('orden').value;
-  const precioMin = parseFloat(document.getElementById('precio-min').value) || 0;
-  const precioMax = parseFloat(document.getElementById('precio-max').value) || Infinity;
 
-  let filtrados = productos.filter(p =>
-    (categoria === "all" || p.categoria === categoria) &&
-    (genero === "all" || p.genero === genero) &&
-    p.precio >= precioMin &&
-    p.precio <= precioMax
-  );
+// CARRITO
 
-  // Ordenamiento
-  if (orden === "precio-asc") filtrados.sort((a, b) => a.precio - b.precio);
-  if (orden === "precio-desc") filtrados.sort((a, b) => b.precio - a.precio);
-  if (orden === "destacados") filtrados = filtrados.filter(p => p.destacado);
-  // "Más recientes" -> orden original
+function agregarAlCarrito(producto) {
+  const index = carrito.findIndex(item => item.nombre === producto.nombre);
+  if (index >= 0) carrito[index].cantidad++;
+  else carrito.push({ ...producto, cantidad: 1 });
 
-  mostrarProductos(filtrados);
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  actualizarCarrito();
+
+  const msg = document.createElement("div");
+  msg.textContent = `🛍️ ${producto.nombre} añadido al carrito`;
+  msg.classList.add("cart-toast");
+  document.body.appendChild(msg);
+  setTimeout(() => msg.remove(), 2000);
 }
 
-// Inicializar
-mostrarProductos(productos);
+function eliminarDelCarrito(producto) {
+  carrito = carrito.filter(item => item.nombre !== producto.nombre);
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  actualizarCarrito();
+}
+
+function actualizarCarrito() {
+  const cont = document.getElementById("cartItems");
+  const totalElem = document.getElementById("cartTotal");
+  const countElem = document.getElementById("cart-count");
+
+  cont.innerHTML = "";
+  let total = 0;
+  let count = 0;
+  carrito.forEach(item => {
+    total += item.precio * item.cantidad;
+    count += item.cantidad;
+
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
+    div.innerHTML = `
+      <img src="${item.img}" alt="${item.nombre}">
+      <div class="cart-item-info">
+        <h4>${item.nombre}</h4>
+        <p>${item.precio} € x ${item.cantidad}</p>
+      </div>
+      <button class="removeItem"><i class="fas fa-trash" style="color:red;"></i></button>
+    `;
+    div.querySelector(".removeItem").addEventListener("click", () => eliminarDelCarrito(item));
+    cont.appendChild(div);
+  });
+
+  totalElem.textContent = carrito.length > 0 ? `Total: ${total.toFixed(2)} €` : "Tu carrito está vacío";
+  countElem.textContent = count;
+}
 
 
+//  EVENTOS
+
+document.getElementById("applyFilters").addEventListener("click", () => {
+  paginaActual = 1;
+  mostrarProductos();
+});
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (paginaActual > 1) { paginaActual--; mostrarProductos(); }
+});
+document.getElementById("nextBtn").addEventListener("click", () => {
+  paginaActual++; mostrarProductos();
+});
+
+document.getElementById("cart-btn").addEventListener("click", () => {
+  const panel = document.getElementById("cartPanel");
+  panel.classList.toggle("open");
+});
+document.getElementById("favorites-btn").addEventListener("click", () => {
+  document.getElementById("favoritosSection").scrollIntoView({ behavior: "smooth" });
+});
+document.getElementById("checkoutBtn").addEventListener("click", () => {
+  alert("Gracias por tu compra 🛒");
+  carrito = [];
+  localStorage.removeItem("carrito");
+  actualizarCarrito();
+  document.getElementById("cartPanel").classList.remove("open");
+});
 
 
+//  INICIALIZACIÓN
 
-
-
-
-
-
-
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarProductos();
+  mostrarFavoritos();
+  actualizarCarrito();
+});

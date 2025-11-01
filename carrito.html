@@ -1,0 +1,378 @@
+<style>
+  /* --- Tus estilos básicos (puedes mantener o adaptar) --- */
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  .filters { display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+  .dropdown { position:relative; }
+  .dropbtn { padding:8px 12px; cursor:pointer; }
+  .dropdown-content { display:none; position:absolute; background:#fff; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.12); z-index:2; }
+  .dropdown.show .dropdown-content { display:block; }
+  .dropdown-content a { display:block; padding:8px 10px; text-decoration:none; color:#333; }
+  .dropdown-content a:hover { background:#f2f2f2; }
+
+  .products-container#productsContainer { display:flex; flex-wrap:wrap; gap:16px; margin-top:12px; }
+  .product { border:1px solid #ddd; border-radius:8px; padding:10px; width:200px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.04); }
+  .product img { width:100%; height:140px; object-fit:cover; border-radius:6px; }
+  .product h4 { font-size:16px; margin:8px 0 4px; }
+  .product p { margin:4px 0; font-size:13px; color:#555; }
+  .product .price { font-weight:700; margin-top:6px; }
+  .product .add-btn { display:inline-block; margin-top:8px; padding:8px 10px; border-radius:6px; background:#0b79d0; color:white; cursor:pointer; border:none; }
+
+  .pagination { margin-top:14px; display:flex; gap:8px; }
+  .pagination button { padding:8px 12px; cursor:pointer; }
+
+  /* --- Carrito (panel) --- */
+  .cart-button {
+    position:fixed; right:18px; top:18px; background:#0b79d0; color:white; border:none; padding:10px 14px; border-radius:24px; cursor:pointer; z-index:30;
+    display:flex; gap:8px; align-items:center; box-shadow:0 6px 18px rgba(11,121,208,0.18);
+  }
+  .cart-count { background:#ff4d4f; color:white; padding:2px 7px; border-radius:999px; font-weight:700; font-size:13px; }
+
+  .cart-panel { position:fixed; right:18px; top:64px; width:320px; max-height:70vh; overflow:auto; background:#fff; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.12); padding:12px; z-index:30; display:none;}
+  .cart-panel.show { display:block; }
+  .cart-item { display:flex; gap:8px; align-items:center; border-bottom:1px solid #eee; padding:8px 0; }
+  .cart-item img { width:56px; height:56px; object-fit:cover; border-radius:6px; }
+  .cart-item .meta { flex:1; }
+  .cart-item .meta h5 { margin:0; font-size:14px; }
+  .cart-item .meta p { margin:4px 0 0; font-size:13px; color:#666; }
+  .cart-item .actions { display:flex; gap:6px; align-items:center; }
+  .qty-btn { padding:4px 8px; border-radius:6px; border:1px solid #ddd; background:#fafafa; cursor:pointer; }
+  .remove-btn { background:transparent; border:none; color:#ff4d4f; cursor:pointer; font-size:14px; }
+
+  .cart-footer { margin-top:10px; display:flex; justify-content:space-between; align-items:center; }
+  .checkout-btn { background:#10b981; color:white; border:none; padding:8px 10px; border-radius:8px; cursor:pointer; }
+  .clear-btn { background:transparent; border:1px solid #ddd; padding:6px 8px; border-radius:8px; cursor:pointer; }
+
+  /* Responsive */
+  @media (max-width:520px){
+    .cart-panel { right:8px; left:8px; width:auto; }
+    .products-container#productsContainer { justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="products-container">
+  <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 8px;">Filtrar productos</h3>
+</div>
+
+<!-- Contenedor de busquedas-->
+<div class="filters">
+  <div class="dropdown" data-filter="categoria">
+    <button class="dropbtn">Categoría ▾</button>
+    <div class="dropdown-content">
+      <a href="#" data-value="all">Todas</a>
+      <a href="#" data-value="Ropa">Ropa</a>
+      <a href="#" data-value="Calzado">Calzado</a>
+      <a href="#" data-value="Electrónica">Electrónica</a>
+      <a href="#" data-value="Hogar">Hogar</a>
+    </div>
+  </div>
+
+  <div class="dropdown" data-filter="genero">
+    <button class="dropbtn">Género ▾</button>
+    <div class="dropdown-content">
+      <a href="#" data-value="all">Todos</a>
+      <a href="#" data-value="Mujer">Mujer</a>
+      <a href="#" data-value="Hombre">Hombre</a>
+    </div>
+  </div>
+
+  <div class="dropdown" data-filter="precio">
+    <button class="dropbtn">Ordenar por ▾</button>
+    <div class="dropdown-content">
+      <a href="#" data-value="relevancia">Relevancia</a>
+      <a href="#" data-value="asc">Menor a mayor</a>
+      <a href="#" data-value="desc">Mayor a menor</a>
+    </div>
+  </div>
+
+  <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
+</div>
+
+<div class="products-container" id="productsContainer"></div>
+
+<div class="pagination">
+  <button id="prevBtn">⬅ Anterior</button>
+  <button id="nextBtn">Siguiente ➡</button>
+</div>
+
+<!-- Botón del carrito -->
+<button class="cart-button" id="cartBtn">
+  🛒 <span id="cartCount" class="cart-count">0</span>
+</button>
+
+<!-- Panel del carrito -->
+<div class="cart-panel" id="cartPanel" aria-hidden="true">
+  <h4>Tu carrito</h4>
+  <div id="cartItems"></div>
+  <div class="cart-footer">
+    <strong id="cartTotal">Total: 0 €</strong>
+    <div>
+      <button class="clear-btn" id="clearCartBtn">Vaciar</button>
+      <button class="checkout-btn" id="checkoutBtn">Pagar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* --- Datos de productos (tu array original) --- */
+const productos = [
+  {nombre: "Camiseta básica", categoria: "Ropa", genero: "Hombre", precio: 20, img: "https://via.placeholder.com/200x200?text=Camiseta"},
+  {nombre: "Zapatillas deportivas", categoria: "Calzado", genero: "Mujer", precio: 60, img: "https://via.placeholder.com/200x200?text=Zapatillas"},
+  {nombre: "Auriculares Bluetooth", categoria: "Electrónica", genero: "Todos", precio: 45, img: "https://via.placeholder.com/200x200?text=Auriculares"},
+  {nombre: "Pantalón vaquero", categoria: "Ropa", genero: "Hombre", precio: 40, img: "https://via.placeholder.com/200x200?text=Pantalón"},
+  {nombre: "Bolso de cuero", categoria: "Hogar", genero: "Mujer", precio: 90, img: "https://via.placeholder.com/200x200?text=Bolso"},
+  {nombre: "Sudadera oversize", categoria: "Ropa", genero: "Mujer", precio: 35, img: "https://via.placeholder.com/200x200?text=Sudadera"},
+  {nombre: "Reloj inteligente", categoria: "Electrónica", genero: "Todos", precio: 120, img: "https://via.placeholder.com/200x200?text=Reloj"},
+  {nombre: "Zapatos de vestir", categoria: "Calzado", genero: "Hombre", precio: 70, img: "https://via.placeholder.com/200x200?text=Zapatos"},
+  {nombre: "Cafetera", categoria: "Hogar", genero: "Todos", precio: 110, img: "https://via.placeholder.com/200x200?text=Cafetera"},
+  {nombre: "Auriculares Pro", categoria: "Electrónica", genero: "Todos", precio: 180, img: "https://via.placeholder.com/200x200?text=Auriculares+Pro"},
+  {nombre: "Chaqueta impermeable", categoria: "Ropa", genero: "Hombre", precio: 55, img: "https://via.placeholder.com/200x200?text=Chaqueta"},
+  {nombre: "Sandalias verano", categoria: "Calzado", genero: "Mujer", precio: 30, img: "https://via.placeholder.com/200x200?text=Sandalias"},
+  {nombre: "Cafetera", categoria: "Hogar", genero: "Todos", precio: 110, img: "https://via.placeholder.com/200x200?text=Cafetera"},
+  {nombre: "Auriculares Pro", categoria: "Electrónica", genero: "Todos", precio: 180, img: "https://via.placeholder.com/200x200?text=Auriculares+Pro"},
+  {nombre: "Chaqueta impermeable", categoria: "Ropa", genero: "Hombre", precio: 55, img: "https://via.placeholder.com/200x200?text=Chaqueta"},
+  {nombre: "Sandalias verano", categoria: "Calzado", genero: "Mujer", precio: 30, img: "https://via.placeholder.com/200x200?text=Sandalias"},
+];
+
+let filtros = { categoria: "all", genero: "all", precio: "relevancia" };
+let paginaActual = 1;
+const productosPorPagina = 10;
+
+/* --- Carrito: estructura y persistencia --- */
+let carrito = loadCart(); // cargar del localStorage o comienzo vacío
+
+function saveCart() {
+  localStorage.setItem('miCarrito', JSON.stringify(carrito));
+  renderCartCount();
+}
+
+function loadCart() {
+  try {
+    const data = localStorage.getItem('miCarrito');
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+/* --- FILTROS (igual que antes) --- */
+document.querySelectorAll('.dropdown').forEach(drop => {
+  const button = drop.querySelector('.dropbtn');
+  const menu = drop.querySelector('.dropdown-content');
+  const tipo = drop.dataset.filter;
+
+  button.addEventListener('click', e => {
+    e.stopPropagation();
+    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+    drop.classList.toggle('show');
+  });
+
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      filtros[tipo] = a.dataset.value;
+      button.textContent = `${a.textContent} ▾`;
+      drop.classList.remove('show');
+    });
+  });
+});
+
+window.addEventListener('click', () => document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show')));
+
+/* --- RENDERIZADO DE PRODUCTOS (ahora con botón de añadir) --- */
+function mostrarProductos() {
+  const cont = document.getElementById('productsContainer');
+  cont.innerHTML = '';
+
+  let lista = productos.filter(p => 
+    (filtros.categoria === 'all' || p.categoria === filtros.categoria) &&
+    (filtros.genero === 'all' || p.genero === filtros.genero)
+  );
+
+  if (filtros.precio === 'asc') lista.sort((a,b)=>a.precio-b.precio);
+  else if (filtros.precio === 'desc') lista.sort((a,b)=>b.precio-a.precio);
+  // relevancia no altera el orden original
+
+  const inicio = (paginaActual - 1) * productosPorPagina;
+  const fin = inicio + productosPorPagina;
+  const pagina = lista.slice(inicio, fin);
+
+  pagina.forEach((p, index) => {
+    const div = document.createElement('div');
+    div.classList.add('product');
+    // usamos dataset-id para identificar producto (podría ser índice o nombre)
+    const prodId = productos.indexOf(p); // índice en array original
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.nombre}">
+      <h4>${p.nombre}</h4>
+      <p>${p.categoria} · ${p.genero}</p>
+      <p class="price"><strong>${p.precio} €</strong></p>
+      <button class="add-btn" data-id="${prodId}">Añadir al carrito</button>
+    `;
+    cont.appendChild(div);
+  });
+
+  document.getElementById('prevBtn').disabled = paginaActual === 1;
+  document.getElementById('nextBtn').disabled = fin >= lista.length;
+
+  // Delegación: escuchar clicks en botones "Añadir"
+  cont.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id, 10);
+      addToCartById(id);
+    });
+  });
+}
+
+/* --- Botones de paginación y aplicar filtros --- */
+document.getElementById('applyFilters').addEventListener('click', () => {
+  paginaActual = 1;
+  mostrarProductos();
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  if (paginaActual > 1) {
+    paginaActual--;
+    mostrarProductos();
+  }
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  paginaActual++;
+  mostrarProductos();
+});
+
+/* --- FUNCIONES DEL CARRITO --- */
+
+function addToCartById(id) {
+  const producto = productos[id];
+  if (!producto) return;
+  addToCart({...producto, id});
+  // feedback visual (breve)
+  const btn = document.querySelector(`.add-btn[data-id="${id}"]`);
+  if (btn) {
+    btn.textContent = 'Añadido ✓';
+    setTimeout(()=> btn.textContent = 'Añadir al carrito', 900);
+  }
+}
+
+function addToCart(product) {
+  // Si ya existe, aumentar cantidad
+  const existente = carrito.find(item => item.id === product.id);
+  if (existente) {
+    existente.cantidad += 1;
+  } else {
+    carrito.push({ ...product, cantidad: 1 });
+  }
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  carrito = carrito.filter(item => item.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function changeQuantity(id, delta) {
+  const it = carrito.find(item => item.id === id);
+  if (!it) return;
+  it.cantidad += delta;
+  if (it.cantidad <= 0) {
+    removeFromCart(id);
+  } else {
+    saveCart();
+    renderCart();
+  }
+}
+
+function clearCart() {
+  carrito = [];
+  saveCart();
+  renderCart();
+}
+
+function cartTotal() {
+  return carrito.reduce((acc, it) => acc + (it.precio * it.cantidad), 0);
+}
+
+/* --- Renderizar contador y panel del carrito --- */
+function renderCartCount() {
+  const countEl = document.getElementById('cartCount');
+  const totalItems = carrito.reduce((s, it) => s + it.cantidad, 0);
+  countEl.textContent = totalItems;
+}
+
+function formatEuro(n){ return `${n.toFixed(2)} €`; }
+
+function renderCart() {
+  renderCartCount();
+  const container = document.getElementById('cartItems');
+  container.innerHTML = '';
+  if (carrito.length === 0) {
+    container.innerHTML = '<p style="color:#666">Tu carrito está vacío.</p>';
+  } else {
+    carrito.forEach(item => {
+      const div = document.createElement('div');
+      div.classList.add('cart-item');
+      div.innerHTML = `
+        <img src="${item.img}" alt="${item.nombre}">
+        <div class="meta">
+          <h5>${item.nombre}</h5>
+          <p>${item.precio} € x ${item.cantidad} = <strong>${(item.precio * item.cantidad).toFixed(2)} €</strong></p>
+        </div>
+        <div class="actions">
+          <button class="qty-btn" data-action="dec" data-id="${item.id}">-</button>
+          <span>${item.cantidad}</span>
+          <button class="qty-btn" data-action="inc" data-id="${item.id}">+</button>
+          <button class="remove-btn" data-id="${item.id}">✕</button>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  document.getElementById('cartTotal').textContent = 'Total: ' + formatEuro(cartTotal());
+
+  // listeners para los botones dentro del panel
+  container.querySelectorAll('.qty-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const id = parseInt(b.dataset.id,10);
+      const action = b.dataset.action;
+      if (action === 'inc') changeQuantity(id, 1);
+      else changeQuantity(id, -1);
+    });
+  });
+  container.querySelectorAll('.remove-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const id = parseInt(b.dataset.id,10);
+      removeFromCart(id);
+    });
+  });
+}
+
+/* --- Comportamiento botón carrito y acciones --- */
+const cartBtn = document.getElementById('cartBtn');
+const cartPanel = document.getElementById('cartPanel');
+cartBtn.addEventListener('click', () => {
+  cartPanel.classList.toggle('show');
+  cartPanel.setAttribute('aria-hidden', !cartPanel.classList.contains('show'));
+});
+
+document.getElementById('clearCartBtn').addEventListener('click', () => {
+  if (confirm('¿Vaciar el carrito?')) clearCart();
+});
+
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+  if (carrito.length === 0) { alert('El carrito está vacío.'); return; }
+  // Ejemplo simple de checkout — aquí integras tu lógica real de pago
+  alert('Ir a pago — total: ' + formatEuro(cartTotal()));
+});
+
+/* --- Inicializar --- */
+renderCart(); // render del estado guardado
+mostrarProductos();
+</script>
+</body>
+</html>
