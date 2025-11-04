@@ -70,8 +70,7 @@ setInterval(() => {
 
 
 
-// DATOS DE PRODUCTOS
-
+// LISTA DE PRODUCTOS
 const productos = [
   { nombre: "Camiseta básica", categoria: "Ropa", genero: "Hombre", precio: 20, img: "imagenes/camisetas.png" },
   { nombre: "Zapatillas deportivas", categoria: "Calzado", genero: "Mujer", precio: 60, img: "imagenes/zapatillas.png" },
@@ -88,21 +87,48 @@ const productos = [
   { nombre: "Silla", categoria: "Hogar", genero: "Todos", precio: 110, img: "imagenes/silla1.png" },
   { nombre: "Laptop", categoria: "Electrónica", genero: "Todos", precio: 180, img: "imagenes/laptop.png" },
   { nombre: "Smartphone", categoria: "Electrónica", genero: "Todos", precio: 55, img: "imagenes/Smartphone.png" },
-  { nombre: "Vestido", categoria: "Ropa", genero: "Mujer", precio: 30, img: "imagenes/vestido.png" },
 ];
 
+// BUSCADOR DE PRODUCTOS ===
+const searchInput = document.getElementById("searchInput");
+const searchIcon = document.getElementById("searchIcon");
+const productsContainer = document.getElementById("productsContainer");
 
 //  VARIABLES GLOBALES
-
 let filtros = { categoria: "all", genero: "all", precio: "relevancia" };
 let paginaActual = 1;
 const productosPorPagina = 10;
+let terminoBusqueda = "";
 
-let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
+// FUNCIÓN DE BÚSQUEDA 
+function buscarProducto() {
+  terminoBusqueda = searchInput.value.trim().toLowerCase();
+  paginaActual = 1;             // cuando buscas, vuelve a la página 1
+  mostrarProductos();           // vuelve a pintar pero ya filtrando por búsqueda
+}
 
-// FILTROS
+// Eventos: clic en la lupa o Enter
+if (searchIcon) {
+  searchIcon.addEventListener("click", buscarProducto);
+}
+if (searchInput) {
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") buscarProducto();
+  });
+
+  // si borra todo el texto → volver a mostrar todo
+  searchInput.addEventListener("input", () => {
+    if (searchInput.value.trim() === "") {
+      terminoBusqueda = "";
+      paginaActual = 1;
+      mostrarProductos();
+    }
+  });
+}
+
+// FILTROS 
 
 document.querySelectorAll(".dropdown").forEach(drop => {
   const button = drop.querySelector(".dropbtn");
@@ -121,91 +147,198 @@ document.querySelectorAll(".dropdown").forEach(drop => {
       filtros[tipo] = a.dataset.value;
       button.textContent = `${a.textContent} ▾`;
       drop.classList.remove("show");
+      paginaActual = 1;
+      mostrarProductos();
     });
   });
 });
 
+// === BOTÓN "APLICAR FILTROS" ===
+const applyFiltersBtn = document.getElementById("applyFilters");
+
+if (applyFiltersBtn) {
+  applyFiltersBtn.addEventListener("click", () => {
+    paginaActual = 1; // reinicia a la primera página
+    mostrarProductos(); // actualiza la vista según los filtros seleccionados
+  });
+}
 window.addEventListener("click", () => document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("show")));
-
-
-//  MOSTRAR PRODUCTOS
 
 function mostrarProductos() {
   const cont = document.getElementById("productsContainer");
   cont.innerHTML = "";
 
+  // filtros por categoría y género
   let lista = productos.filter(p =>
     (filtros.categoria === "all" || p.categoria === filtros.categoria) &&
     (filtros.genero === "all" || p.genero === filtros.genero)
   );
 
+  // aplicar búsqueda si hay texto
+  if (terminoBusqueda) {
+    lista = lista.filter(p =>
+      p.nombre.toLowerCase().includes(terminoBusqueda) ||
+      p.categoria.toLowerCase().includes(terminoBusqueda) ||
+      p.genero.toLowerCase().includes(terminoBusqueda)
+    );
+  }
+
+  // ordenar por precio
   if (filtros.precio === "asc") lista.sort((a, b) => a.precio - b.precio);
   else if (filtros.precio === "desc") lista.sort((a, b) => b.precio - a.precio);
 
+  // si no hay nada que mostrar
+  if (lista.length === 0) {
+    cont.innerHTML = `<p style="text-align:center; font-size:18px; color:#666;">No se encontraron productos.</p>`;
+    document.getElementById("prevBtn").disabled = true;
+    document.getElementById("nextBtn").disabled = true;
+    return;
+  }
+
+  // paginación
   const inicio = (paginaActual - 1) * productosPorPagina;
   const fin = inicio + productosPorPagina;
   const pagina = lista.slice(inicio, fin);
 
+  // recorre productos de esta página
   pagina.forEach(p => {
     const div = document.createElement("div");
     div.classList.add("product");
 
-    const isFav = favoritos.some(f => f.nombre === p.nombre);
-    const heartColor = isFav ? "red" : "gray";
-    const heartIcon = isFav ? "fa-heart" : "fa-heart-circle-plus";
-
     div.innerHTML = `
       <img src="${p.img}" alt="${p.nombre}">
       <h4>${p.nombre}</h4>
-      <p><strong>${p.precio} €</strong></p>
-      <button class="fav-btn"><i class="fas ${heartIcon}" style="color:${heartColor}; font-size:20px;"></i></button>
-      <button class="buy-btn"><img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px; margin-left: -15px; margin-right: 7px;"> Comprar ahora</button>
+      <p class="category">${p.categoria}</p>
+      <p class="price"><strong>${p.precio} €</strong></p>
+      <div style="display:flex; gap:6px; margin-top:8px;">        
+        <button class="buy-btn" style="display:flex; align-items:center; gap:6px;">
+          <img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px;">
+          <span style="color: white;">Comprar ahora</span>
+        </button>
+      </div>
     `;
 
-    div.querySelector(".fav-btn").addEventListener("click", () => toggleFavorito(p));
-    div.querySelector(".buy-btn").addEventListener("click", () => agregarAlCarrito(p));
+    // añade al historial de búsqueda si hay término activo
+    if (terminoBusqueda && typeof addProductToHistory === "function") {
+      addProductToHistory({
+        nombre: p.nombre,
+        categoria: p.categoria,
+        precio: p.precio,
+        imagen: p.img
+      });
+    }
+
+    //  añade los más vistos cuando el usuario lo ve o hace clic
+    div.addEventListener("click", () => {
+      if (typeof addProductToMostViewed === "function") {
+        addProductToMostViewed({
+          nombre: p.nombre,
+          categoria: p.categoria,
+          precio: p.precio,
+          imagen: p.img
+        });
+      }
+    });
 
     cont.appendChild(div);
   });
 
+  // actualizar botones de paginación
   document.getElementById("prevBtn").disabled = paginaActual === 1;
   document.getElementById("nextBtn").disabled = fin >= lista.length;
 }
 
-//  FAVORITOS
+// === HISTORIAL DE PRODUCTOS BUSCADOS ===
+const searchHistorySlider = document.getElementById("searchHistorySlider");
+const historyPrev = document.getElementById("historyPrev");
+const historyNext = document.getElementById("historyNext");
+const clearHistoryBtn = document.getElementById("clearHistory");
 
-function toggleFavorito(producto) {
-  const index = favoritos.findIndex(f => f.nombre === producto.nombre);
-  if (index >= 0) favoritos.splice(index, 1);
-  else favoritos.push(producto);
+// Guardar un producto en el historial
+function addProductToHistory(product) {
+  if (!product || !product.nombre) return;
 
-  localStorage.setItem("favoritos", JSON.stringify(favoritos));
-  mostrarProductos();
-  mostrarFavoritos();
+  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+  // Evitar duplicados por nombre
+  history = history.filter(item => item.nombre !== product.nombre);
+  history.unshift(product); // agrega al inicio
+  if (history.length > 10) history.pop(); // máximo 10 productos
+
+  localStorage.setItem("searchHistory", JSON.stringify(history));
+  renderProductHistory();
 }
 
-function mostrarFavoritos() {
-  const cont = document.getElementById("favoritosContainer");
-  cont.innerHTML = "";
+// Renderizar historial de productos
+function renderProductHistory() {
+  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  searchHistorySlider.innerHTML = "";
 
-  if (favoritos.length === 0) {
-    cont.innerHTML = '<p style="text-align:center;">No tienes productos favoritos aún.</p>';
+  if (history.length === 0) {
+    const emptyMessage = document.createElement("div");
+    emptyMessage.classList.add("no-history");
+    emptyMessage.textContent = "Aún no tienes búsquedas recientes.";
+    searchHistorySlider.appendChild(emptyMessage);
     return;
   }
 
-  favoritos.forEach(p => {
-    const div = document.createElement("div");
-    div.classList.add("product");
-    div.innerHTML = `
-      <img src="${p.img}" alt="${p.nombre}">
-      <h4>${p.nombre}</h4>
-      <p><strong>${p.precio} €</strong></p>
-      <button class="remove-fav-btn"><i class="fas fa-trash" style="color:red;"></i></button>
+  history.forEach(prod => {
+    const card = document.createElement("div");
+    card.classList.add("history-product");
+    card.innerHTML = `
+      <button class="remove-btn">×</button>
+      <img src="${prod.imagen}" alt="${prod.nombre}">
+      <div class="history-product-info">
+        <h4>${prod.nombre}</h4>
+        <p>${prod.categoria}</p>
+        <p class="price">${prod.precio} €</p>
+        <button class="buy-now-btn">Comprar ahora</button>
+      </div>
     `;
-    div.querySelector(".remove-fav-btn").addEventListener("click", () => toggleFavorito(p));
-    cont.appendChild(div);
+
+    // Eliminar producto del historial
+    card.querySelector(".remove-btn").addEventListener("click", () => {
+      removeFromHistory(prod.nombre);
+    });
+
+    // Acción de comprar
+    card.querySelector(".buy-now-btn").addEventListener("click", () => {
+      alert(`Has comprado: ${prod.nombre}`);
+    });
+
+    searchHistorySlider.appendChild(card);
   });
 }
+
+// Eliminar producto individual
+function removeFromHistory(nombre) {
+  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  history = history.filter(p => p.nombre !== nombre);
+  localStorage.setItem("searchHistory", JSON.stringify(history));
+  renderProductHistory();
+}
+
+// Eliminar todo el historial
+if (clearHistoryBtn) {
+  clearHistoryBtn.addEventListener("click", () => {
+    localStorage.removeItem("searchHistory");
+    renderProductHistory();
+  });
+}
+
+// Flechas del slider
+if (historyPrev && historyNext) {
+  historyPrev.addEventListener("click", () => {
+    searchHistorySlider.scrollBy({ left: -250, behavior: "smooth" });
+  });
+
+  historyNext.addEventListener("click", () => {
+    searchHistorySlider.scrollBy({ left: 250, behavior: "smooth" });
+  });
+}
+
+// Inicializar historial al cargar
+document.addEventListener("DOMContentLoaded", renderProductHistory);
 
 
 // CARRITO
@@ -279,9 +412,6 @@ document.getElementById("cart-btn").addEventListener("click", () => {
   const panel = document.getElementById("cartPanel");
   panel.classList.toggle("open");
 });
-document.getElementById("favorites-btn").addEventListener("click", () => {
-  document.getElementById("favoritosSection").scrollIntoView({ behavior: "smooth" });
-});
 document.getElementById("checkoutBtn").addEventListener("click", () => {
   alert("Gracias por tu compra 🛒");
   carrito = [];
@@ -295,6 +425,110 @@ document.getElementById("checkoutBtn").addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   mostrarProductos();
-  mostrarFavoritos();
   actualizarCarrito();
+});
+
+
+// === SECCIÓN DE LOS MÁS VISTOS ===
+const mostViewedSlider = document.getElementById("mostViewedSlider");
+const viewedPrev = document.getElementById("viewedPrev");
+const viewedNext = document.getElementById("viewedNext");
+const clearViewedBtn = document.getElementById("clearViewed");
+
+// Guardar un producto en los más vistos
+function addProductToMostViewed(product) {
+  if (!product || !product.nombre) return;
+
+  let viewed = JSON.parse(localStorage.getItem("mostViewed")) || [];
+
+  // Evita duplicados
+  viewed = viewed.filter(item => item.nombre !== product.nombre);
+  viewed.unshift(product);
+  if (viewed.length > 10) viewed.pop();
+
+  localStorage.setItem("mostViewed", JSON.stringify(viewed));
+  renderMostViewed();
+}
+
+// Renderizar los más vistos
+function renderMostViewed() {
+  let viewed = JSON.parse(localStorage.getItem("mostViewed")) || [];
+  mostViewedSlider.innerHTML = "";
+
+  if (viewed.length === 0) {
+    const emptyMessage = document.createElement("div");
+    emptyMessage.classList.add("no-history");
+    emptyMessage.textContent = "Aún no hay productos vistos.";
+    mostViewedSlider.appendChild(emptyMessage);
+    return;
+  }
+
+  viewed.forEach(prod => {
+    const card = document.createElement("div");
+    card.classList.add("history-product");
+    card.innerHTML = `
+      <button class="remove-btn">×</button>
+      <img src="${prod.imagen}" alt="${prod.nombre}">
+      <div class="history-product-info">
+        <h4>${prod.nombre}</h4>
+        <p>${prod.categoria}</p>
+        <p class="price">${prod.precio} €</p>
+        <button class="buy-now-btn">Comprar ahora</button>
+      </div>
+    `;
+
+    // Eliminar producto individual
+    card.querySelector(".remove-btn").addEventListener("click", () => {
+      removeFromMostViewed(prod.nombre);
+    });
+
+    // Botón comprar
+    card.querySelector(".buy-now-btn").addEventListener("click", () => {
+      alert(`Has comprado: ${prod.nombre}`);
+      // puedes llamar a agregarAlCarrito(prod) si quieres
+    });
+
+    mostViewedSlider.appendChild(card);
+  });
+}
+
+// Eliminar producto individual
+function removeFromMostViewed(nombre) {
+  let viewed = JSON.parse(localStorage.getItem("mostViewed")) || [];
+  viewed = viewed.filter(p => p.nombre !== nombre);
+  localStorage.setItem("mostViewed", JSON.stringify(viewed));
+  renderMostViewed();
+}
+
+// Eliminar todos los más vistos
+if (clearViewedBtn) {
+  clearViewedBtn.addEventListener("click", () => {
+    localStorage.removeItem("mostViewed");
+    renderMostViewed();
+  });
+}
+
+// Flechas del slider
+if (viewedPrev && viewedNext) {
+  viewedPrev.addEventListener("click", () => {
+    mostViewedSlider.scrollBy({ left: -250, behavior: "smooth" });
+  });
+  viewedNext.addEventListener("click", () => {
+    mostViewedSlider.scrollBy({ left: 250, behavior: "smooth" });
+  });
+}
+
+// Inicializar al cargar
+document.addEventListener("DOMContentLoaded", renderMostViewed);
+
+
+// Conectar con el whatsapp
+const whatsapp = document.getElementById("whatsapp-container");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 300) {
+    whatsapp.classList.add("show");
+  } else {
+    whatsapp.classList.remove("show");
+  }
 });

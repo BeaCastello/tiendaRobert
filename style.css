@@ -20,7 +20,7 @@ header {
   justify-content: space-between;
   align-items: center;
   color: rgb(10, 10, 10);
-  padding: 10px 20px;
+  padding: 10px 10px;
 }
 
 .left-side {
@@ -58,6 +58,7 @@ header {
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
+  margin-right: 20px;
 }
 
 .flag {
@@ -77,7 +78,7 @@ header {
   display: none;
   width: 150px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-  z-index: 100;
+  z-index: 100;  
 }
 
 .lang-menu li {
@@ -114,7 +115,7 @@ header {
 }
 
 .card img {
-  width: 79%;
+  width: 79%;  
 }
 
 .mensaje {
@@ -134,7 +135,7 @@ header {
   border-radius: 50%;
   position: absolute;
   top: -8px;
-  right: -8px;
+  right: 3px;
 }
 
 /* Texto animado */
@@ -431,7 +432,7 @@ header {
   background: none;
   border: none;
   cursor: pointer;
-  margin-top: 8px;
+  margin-top: 18px;
 }
 
 .product:hover { transform: translateY(-4px); }
@@ -470,161 +471,422 @@ header {
   cursor: not-allowed;
 }
 
-/*  Contact */
-.container-contact {
+.search-bar {
+  position: relative;
   display: flex;
-  justify-content: right;
-  align-items: center;
-  background-image: url('imagenes/banner2.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  margin-top: 30px;
-}
-
-.content {
-  width: 470px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  margin-top: 20px;
-  margin-bottom: 20px;
- 
-}
-
-.form-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-label {
-  font-weight: bold;
-  font-size: 14px;
-  color: #333;
-  margin-left: 20px;
-}
-
-.input-contactForm,
-textarea {
+  justify-content: center;
+  margin: 30px auto;
   width: 90%;
-  padding: 10px;
-  font-size: 14px;
+  max-width: 600px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 20px 12px 45px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-left: 20px;
+  border-radius: 50px;
+  outline: none;
+  transition: all 0.2s ease;
 }
 
-textarea {
-  resize: none;
-  height: 100px;
+.search-bar input:focus {
+  border-color: #222;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
-.terms-label {
+.search-bar i {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+.search-bar i:hover {
+  color: #222;
+}
+
+/* ==== HISTORIAL DE PRODUCTOS ==== */
+.search-history-section {
+  margin: 40px auto;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  position: relative;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.history-header h3 {
+  font-size: 22px;
+  color: #222;
+}
+
+.clear-history-btn {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.clear-history-btn:hover {
+  color: red;
+}
+
+.history-slider-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-history-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 15px;
+  padding: 10px;
+  width: 100%;
+}
+
+.search-history-slider::-webkit-scrollbar {
+  height: 6px;
+}
+
+.search-history-slider::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+.history-product {
+  flex: 0 0 auto;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  width: 180px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.history-product:hover {
+  transform: scale(1.05);
+}
+
+.history-product img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.history-product-info {
+  padding: 10px;
+  text-align: left;
+}
+
+.history-product-info h4 {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.history-product-info p {
+  font-size: 14px;
+  color: #666;
+  margin: 2px 0;
+}
+
+.history-product-info .price {
+  color: #111;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.buy-now-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 0;
+  margin-top: 10px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.buy-now-btn:hover {
+  background: #444;
+}
+
+/* Botón eliminar */
+.remove-btn {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background: rgba(255,255,255,0.8);
+  border: none;
+  border-radius: 50%;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+  background: #ffdddd;
+  color: red;
+}
+
+/* Flechas del slider */
+.history-arrow {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.history-arrow:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
+}
+
+.history-arrow.left {
+  margin-right: 10px;
+}
+
+.history-arrow.right {
+  margin-left: 10px;
+}
+
+/* Mensaje vacío */
+.no-history {
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  padding: 20px;
+}
+
+/* ==== LISTA DE DESEOS ==== */
+.wishlist-section {
+  margin: 40px auto;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.wishlist-section h2 {
+  font-size: 24px;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.wishlist-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.wishlist-item {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.wishlist-item:hover {
+  transform: scale(1.05);
+}
+
+.wishlist-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.wishlist-info {
+  padding: 10px;
+  text-align: left;
+}
+
+.wishlist-info h4 {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.wishlist-info p {
   font-size: 14px;
   color: #555;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  margin: 2px 0;
 }
 
-.sendButton {
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
+.wishlist-info .price {
+  color: #111;
+  font-weight: bold;
+}
+
+.remove-wishlist {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.9);
   border: none;
-  border-radius: 4px;
+  border-radius: 50%;
   font-size: 16px;
+  color: red;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  transition: background 0.2s ease;
+}
+
+.remove-wishlist:hover {
+  background: #ffcccc;
+}
+
+.buy-now-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 0;
+  margin-top: 10px;
+  background:#ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.buy-now-btn:hover {
+  background: #444;
+}
+
+.most-viewed-section h3 {
+  color: #0a7abf;
+}
+
+.most-viewed-section .buy-now-btn {
+  background:#ff4d4d;;
+}
+
+.most-viewed-section .buy-now-btn:hover {
+  background: #fd3737;
+}
+
+/* Estilo Whatsapp */
+.whatsapp-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 1000;
+}
+.whatsapp-container img{
+  width: 65px;
+}
+
+/* Botón de WhatsApp */
+
+.whatsapp-container.show {
+  opacity: 1;
+  visibility: visible;  
+}
+
+/* Mostrar el botón cuando es visible */
+.whatsapp-container.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-10px);
+  transition: opacity 0.3s, transform 0.5s;
+}
+
+/* Footer dentro de la curva */
+.footer {
+  text-align: center;
+  position: relative;
+  background-color: #f5dcba;
+}
+
+.p-footer {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #444;
+  padding-top: 20px;
+}
+
+.footer .sociales {
+  margin-top: 10px;
+  padding-bottom: 20px;
+}
+
+.footer .sociales a {
+  color: #444;
+  text-decoration: none;
+  margin: 0 8px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer .sociales a:hover {
+  color: #b28b62;
+}
+
+.payment-methods h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.payment-icons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.payment-icons img {
+  height: 32px;
+  filter: brightness(100%);
+  transition: transform 0.3s ease, filter 0.3s ease;
   cursor: pointer;
 }
 
-.sendButton:hover {
-  background-color: #0056b3;
+.payment-icons img:hover {
+  transform: scale(1.12);
+  filter: brightness(130%);
 }
 
-@media screen and (max-width: 768px) {
-  .content {
-    padding: 10px 0px 10px 0px;
-    width: 291px;
-    margin-left: 10px;
-  }
 
-  form {
-    margin-right: 11px;
-  }
-
-  .form-title {
-    font-size: 20px;
-    width: 291px;
-  }
-
-  .form-subtitle {
-    font-size: 16px;
-  }
-
-  label {
-    font-size: 13px;
-    margin-left: 16px
-  }
-
-  .input-contactForm,
-  textarea {
-    font-size: 13px;
-    margin-left: 16px;
-  }
-
-  .sendButton {
-    font-size: 14px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .form-title {
-    font-size: 18px;
-  }
-
-  .form-subtitle {
-    font-size: 14px;
-  }
-
-  .sendButton {
-    font-size: 12px;
-  }
-
-  .container-contact {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-#favoritosSection {
-  margin-top: 50px;
-  border-top: 2px solid #ddd;
-  padding-top: 30px;
-}
-
-#favoritosContainer .product {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 8px;
-  background: white;
-}
-
-/* 🛒 Estilos del carrito flotante */
+/*  Estilos del carrito flotante */
     #cartPanel {
       position: fixed;
       top: 0;

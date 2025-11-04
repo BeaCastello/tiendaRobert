@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tienda Robert</title>
+  <title>La Manigua</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
   <link rel="icon" href="imagenes/imgLogo-transparente2.png" type="image/png">
@@ -14,6 +14,15 @@
 <body>
   <header>
     <div class="left-content">
+      <img src="imagenes/imgLogo.png" alt="Logo" style="width: 120px"> </img>
+    </div>
+
+    <div class="center-content" style="display: flex;">
+      <p style="padding-right: 40px;"> <i class="fa-solid fa-phone"></i> (+34) 637635577</p>
+      <p><i class="fa-solid fa-envelope"></i> designerbrm@gmail.com</p>
+    </div>
+
+    <div class="right-content">
       <div class="lang-selector">
         <button id="lang-btn">
           <img src="https://flagcdn.com/es.svg" alt="ES" class="flag" />
@@ -25,21 +34,11 @@
           <li data-lang="en"><img src="https://flagcdn.com/gb.svg" alt="EN" class="flag" /> English
           </li>
         </ul>
-        <div class="menu-toggle" style="margin-left: 20px; font-weight: bolder;">☰ MENÚ</div>
       </div>
-    </div>
-
-    <div class="center-content" style="display: flex;">
-      <p style="padding-right: 40px;"> <i class="fa-solid fa-phone"></i> (+34) 637635577</p>
-      <p><i class="fa-solid fa-envelope"></i> designerbrm@gmail.com</p>
-    </div>
-
-    <div class="right-content">      
-
       <div class="icons">
         <a href="iniciarSección.html"><i class="fas fa-user" style="color: black; margin-right: 10px;"></i></a></button>
-        <button id="favorites-btn" title="Favoritos"><i class="fas fa-heart" style="margin-right: 10px;"></i></button>
-        <button id="cart-btn" title="Carrito"><i class="fas fa-shopping-cart"></i><span
+        <!--   <button id="favorites-btn" title="Favoritos"><i class="fas fa-heart" style="margin-right: 10px;"></i></button>-->
+        <button id="cart-btn" title="Carrito"><i class="fas fa-shopping-cart" style="margin-right: 20px;"></i><span
             id="cart-count">0</span></button>
       </div>
 
@@ -137,66 +136,134 @@
   </div>
 
   <div class="products-container">
-    <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 8px;">Filtrar productos</h3></div>
-
- <!-- Contenedor de busquedas-->
-
-<div class="filters">
-  <div class="dropdown" data-filter="categoria">
-    <button class="dropbtn">Categoría ▾</button>
-    <div class="dropdown-content">
-      <a href="#" data-value="all">Todas</a>
-      <a href="#" data-value="Ropa">Ropa</a>
-      <a href="#" data-value="Calzado">Calzado</a>
-      <a href="#" data-value="Electrónica">Electrónica</a>
-      <a href="#" data-value="Hogar">Hogar</a>
-    </div>
+    <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 8px;">Nuestros productos</h3>
   </div>
 
-  <div class="dropdown" data-filter="genero">
-    <button class="dropbtn">Género ▾</button>
-    <div class="dropdown-content">
-      <a href="#" data-value="all">Todos</a>
-      <a href="#" data-value="Mujer">Mujer</a>
-      <a href="#" data-value="Hombre">Hombre</a>
-    </div>
+
+  <!-- Contenedor de busquedas-->
+
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
+    <input type="text" id="searchInput" placeholder="Buscar productos..." />
   </div>
 
-  <div class="dropdown" data-filter="precio">
-    <button class="dropbtn">Ordenar por ▾</button>
-    <div class="dropdown-content">
-      <a href="#" data-value="relevancia">Relevancia</a>
-      <a href="#" data-value="asc">Menor a mayor precio</a>
-      <a href="#" data-value="desc">Mayor a menor precio</a>
+  <!-- Filtros-->
+  <div class="filters">
+    <div class="dropdown" data-filter="categoria">
+      <button class="dropbtn">Categoría ▾</button>
+      <div class="dropdown-content">
+        <a href="#" data-value="all">Todas</a>
+        <a href="#" data-value="Ropa">Ropa</a>
+        <a href="#" data-value="Calzado">Calzado</a>
+        <a href="#" data-value="Electrónica">Electrónica</a>
+        <a href="#" data-value="Hogar">Hogar</a>
+      </div>
     </div>
+
+    <div class="dropdown" data-filter="genero">
+      <button class="dropbtn">Género ▾</button>
+      <div class="dropdown-content">
+        <a href="#" data-value="all">Todos</a>
+        <a href="#" data-value="Mujer">Mujer</a>
+        <a href="#" data-value="Hombre">Hombre</a>
+      </div>
+    </div>
+
+    <div class="dropdown" data-filter="precio">
+      <button class="dropbtn">Ordenar por ▾</button>
+      <div class="dropdown-content">
+        <a href="#" data-value="relevancia">Relevancia</a>
+        <a href="#" data-value="asc">Menor a mayor precio</a>
+        <a href="#" data-value="desc">Mayor a menor precio</a>
+      </div>
+    </div>
+
+    <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
   </div>
 
-  <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
-</div>
 
-<div class="products-container" id="productsContainer"></div>
+  <!-- Contenedor de productos-->
 
-<div class="pagination">
-  <button id="prevBtn">⬅ Anterior</button>
-  <button id="nextBtn">Siguiente ➡</button>
-</div>
+  <div class="products-container" id="productsContainer"></div>
 
-<!-- Sección de Favoritos (visible siempre) -->
+  <div class="pagination">
+    <button id="prevBtn">⬅ Anterior</button>
+    <button id="nextBtn">Siguiente ➡</button>
+  </div>
 
-<section id="favoritosSection" style="padding: 40px; background:#fafafa;">
-  <h2 style="text-align:center; font-size: 34px; margin-bottom: 20px; color: rgb(184, 108, 21);">------------ << Mis Favoritos >> ------------</h2>
-  <div id="favoritosContainer" class="products-container"></div>
-</section>
 
-<!-- 🛒 Panel del Carrito -->
+  <!--  Historial de Búsqueda -->
+  <section class="search-history-section">
+    <div class="history-header">
+      <h3> Tu historial de búsqueda</h3>
+      <button id="clearHistory" class="clear-history-btn">Borrar todo</button>
+    </div>
+
+    <div class="history-slider-container">
+      <button class="history-arrow left" id="historyPrev"><i class="fa-solid fa-chevron-left"></i></button>
+
+      <div class="search-history-slider" id="searchHistorySlider">
+        <!-- Tarjetas de productos -->
+      </div>
+
+      <button class="history-arrow right" id="historyNext"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <!--  Los más vistos -->
+  <section class="most-viewed-section">
+    <div class="history-header">
+      <h3 style="color: black; text-align: center;"> Los más vistos</h3>
+      <button id="clearViewed" class="clear-history-btn">Borrar todo</button>
+    </div>
+
+    <div class="history-slider-container">
+      <button class="history-arrow left" id="viewedPrev"><i class="fa-solid fa-chevron-left"></i></button>
+
+      <div class="search-history-slider" id="mostViewedSlider">
+        <!-- Se insertan los productos más vistos -->
+      </div>
+
+      <button class="history-arrow right" id="viewedNext"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <!-- Panel del Carrito -->
   <div id="cartPanel">
-    <h2>🛒 Tu Carrito</h2>
+    <div style="text-align: center;">
+      <img src="imagenes/imgLogo-transparente.png" style="width: 70px">
+      <h2> Tienda Robert</h2>
+    </div>
     <div id="cartItems"></div>
     <div class="cart-total" id="cartTotal"></div>
-    <button class="checkout-btn" id="checkoutBtn">Finalizar compra</button>
+    <a href="finalizarcompra.html"> <button class="checkout-btn" id="checkoutBtn">Finalizar compra</button> </a>
   </div>
 
+  <!-- Conexión al WhatsApp -->
+  <div class="whatsapp-container" id="whatsapp-container">
+    <a href="https://wa.me/34637635577" target="_blank" class="whatsapp-btn">
+      <img src="imagenes/whatsapp.png" alt="WhatsApp">
+    </a>
+  </div>
 
+  <!-- Footer-->
+  <footer class="footer">
+    <p class="p-footer">© 2025 Estvital. Todos los derechos reservados.</p>
+    <div class="payment-methods">
+      <h4 style="margin-top: 15px;">Métodos de Pago</h4>
+      <div class="payment-icons">
+        <img src="imagenes/visa.png" alt="Visa">
+        <img src="imagenes/mastercard.png" alt="Mastercard">
+        <img src="imagenes/Paypal.png" alt="PayPal">
+        <img src="imagenes/icono_bizum.png" alt="Bizum">
+      </div>
+    </div>
+    <div class="sociales">
+      <a href="#">Instagram</a> |
+      <a href="#">Facebook</a> |
+      <a href="#">LinkedIn</a>
+    </div>
+  </footer>
 
 
 

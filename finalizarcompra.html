@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - La Manigua</title>
+    <link rel="stylesheet" href="finalizarcompra.css">
+    <script src="finalizarcompra.js" defer></script>
+    <link rel="icon" href="imagenes/imgLogo-transparente2.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+    <h2 style="text-align:center; margin-top:30px;">Finalizar Compra</h2>
+
+    <div class="checkout-container">
+
+        <!-- Formulario del comprador -->
+        <div class="checkout-box">
+            <h3>Datos del comprador</h3>
+            <input type="text" id="name" placeholder="Nombre completo" required>
+            <input type="email" id="email" placeholder="Correo electrónico" required>
+            <input type="tel" id="phone" placeholder="Teléfono" required>
+
+            <h3>Dirección de envío</h3>
+            <input type="text" id="address" placeholder="Dirección" required>
+            <input type="text" id="city" placeholder="Ciudad" required>
+            <input type="text" id="postal" placeholder="Código postal" required>
+
+            <h3>Método de pago</h3>
+            <select id="paymentMethod">
+                <option value="Tarjeta">Tarjeta de crédito / débito</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Bizum">Bizum</option>
+                <option value="Contra reembolso">Contra reembolso</option>
+            </select>
+        </div>
+
+        <!-- Resumen del pedido -->
+        <div class="checkout-box">
+            <h3>Resumen del pedido</h3>
+            <div id="orderSummary"></div>
+
+            <h3>Total: <span id="orderTotal">0€</span></h3>
+
+            <button class="confirm-btn" id="confirmOrder">Confirmar pedido</button>
+        </div>
+
+    </div>
+
+    <!-- Texto animado -->
+    <div class="animated-text-container" id="services">
+        <div>
+            <a href="index.html" class="animated-text" > Tu compra continúa aquí. Haz clic y obtén envío estándar gratis en pedidos superiores a 40 €</a>
+        </div>
+    </div>
+
+
+   <!--  Historial de Búsqueda -->
+  <section class="search-history-section">
+    <div class="history-header">
+      <h3> Tu historial de búsqueda</h3>
+      <button id="clearHistory" class="clear-history-btn">Borrar todo</button>
+    </div>
+
+    <div class="history-slider-container">
+      <button class="history-arrow left" id="historyPrev"><i class="fa-solid fa-chevron-left"></i></button>
+
+      <div class="search-history-slider" id="searchHistorySlider">
+        <!-- Tarjetas de productos -->
+      </div>
+
+      <button class="history-arrow right" id="historyNext"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <!--  Los más vistos -->
+  <section class="most-viewed-section">
+    <div class="history-header">
+      <h3 style="color: black; text-align: center;"> Los más vistos</h3>
+      <button id="clearViewed" class="clear-history-btn">Borrar todo</button>
+    </div>
+
+    <div class="history-slider-container">
+      <button class="history-arrow left" id="viewedPrev"><i class="fa-solid fa-chevron-left"></i></button>
+
+      <div class="search-history-slider" id="mostViewedSlider">
+        <!-- Se insertan los productos más vistos -->
+      </div>
+
+      <button class="history-arrow right" id="viewedNext"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+<!-- Footer-->
+  <footer class="footer">
+    <p class="p-footer">© 2025 Estvital. Todos los derechos reservados.</p>
+    <div class="payment-methods">
+      <h4 style="margin-top: 15px;">Métodos de Pago</h4>
+      <div class="payment-icons">
+        <img src="imagenes/visa.png" alt="Visa">
+        <img src="imagenes/mastercard.png" alt="Mastercard">
+        <img src="imagenes/Paypal.png" alt="PayPal">
+        <img src="imagenes/icono_bizum.png" alt="Bizum">
+      </div>
+    </div>
+    <div class="sociales">
+      <a href="#">Instagram</a> |
+      <a href="#">Facebook</a> |
+      <a href="#">LinkedIn</a>
+    </div>
+  </footer>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
