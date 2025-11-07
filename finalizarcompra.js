@@ -31,6 +31,19 @@
         });
 
 
+
+
+
+
+
+
+
+
+
+
+        
+
+
 // === HISTORIAL DE PRODUCTOS BUSCADOS ===
 const searchHistorySlider = document.getElementById("searchHistorySlider");
 const historyPrev = document.getElementById("historyPrev");
@@ -213,3 +226,5 @@ if (viewedPrev && viewedNext) {
 
 // Inicializar al cargar
 document.addEventListener("DOMContentLoaded", renderMostViewed);
+
+

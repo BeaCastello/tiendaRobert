@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 
 <head>
@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
   <link rel="icon" href="imagenes/imgLogo-transparente2.png" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
@@ -135,13 +135,13 @@
     </div>
   </div>
 
+  <!-- Contenedor de busquedas-->
   <div class="products-container">
-    <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 8px;">Nuestros productos</h3>
+    <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 20px;">Nuestros productos</h3>
   </div>
 
 
-  <!-- Contenedor de busquedas-->
-
+  <!-- Buscador-->
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
     <input type="text" id="searchInput" placeholder="Buscar productos..." />
@@ -177,78 +177,26 @@
         <a href="#" data-value="desc">Mayor a menor precio</a>
       </div>
     </div>
-
-    <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
   </div>
-
 
   <!-- Contenedor de productos-->
-
   <div class="products-container" id="productsContainer"></div>
 
-  <div class="pagination">
+  <div class="pagination">    
     <button id="prevBtn">⬅ Anterior</button>
-    <button id="nextBtn">Siguiente ➡</button>
+    <button id="nextBtn">Siguiente ➡</button>    
   </div>
 
+  <!-- Historial de búsqueda -->
+<div class="search-history" id="searchHistoryContainer">
+  <h3>Historial de búsquedas</h3>
+  <ul id="searchHistory"></ul>
+</div>
 
-  <!--  Historial de Búsqueda -->
-  <section class="search-history-section">
-    <div class="history-header">
-      <h3> Tu historial de búsqueda</h3>
-      <button id="clearHistory" class="clear-history-btn">Borrar todo</button>
-    </div>
-
-    <div class="history-slider-container">
-      <button class="history-arrow left" id="historyPrev"><i class="fa-solid fa-chevron-left"></i></button>
-
-      <div class="search-history-slider" id="searchHistorySlider">
-        <!-- Tarjetas de productos -->
-      </div>
-
-      <button class="history-arrow right" id="historyNext"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-  </section>
-
-  <!--  Los más vistos -->
-  <section class="most-viewed-section">
-    <div class="history-header">
-      <h3 style="color: black; text-align: center;"> Los más vistos</h3>
-      <button id="clearViewed" class="clear-history-btn">Borrar todo</button>
-    </div>
-
-    <div class="history-slider-container">
-      <button class="history-arrow left" id="viewedPrev"><i class="fa-solid fa-chevron-left"></i></button>
-
-      <div class="search-history-slider" id="mostViewedSlider">
-        <!-- Se insertan los productos más vistos -->
-      </div>
-
-      <button class="history-arrow right" id="viewedNext"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-  </section>
-
-  <!-- Panel del Carrito -->
-  <div id="cartPanel">
-    <div style="text-align: center;">
-      <img src="imagenes/imgLogo-transparente.png" style="width: 70px">
-      <h2> Tienda Robert</h2>
-    </div>
-    <div id="cartItems"></div>
-    <div class="cart-total" id="cartTotal"></div>
-    <a href="finalizarcompra.html"> <button class="checkout-btn" id="checkoutBtn">Finalizar compra</button> </a>
-  </div>
-
-  <!-- Conexión al WhatsApp -->
-  <div class="whatsapp-container" id="whatsapp-container">
-    <a href="https://wa.me/34637635577" target="_blank" class="whatsapp-btn">
-      <img src="imagenes/whatsapp.png" alt="WhatsApp">
-    </a>
-  </div>
-
+  
   <!-- Footer-->
   <footer class="footer">
-    <p class="p-footer">© 2025 Estvital. Todos los derechos reservados.</p>
+    <p class="p-footer">© 2025 La Manigua. Todos los derechos reservados.</p>
     <div class="payment-methods">
       <h4 style="margin-top: 15px;">Métodos de Pago</h4>
       <div class="payment-icons">
@@ -264,9 +212,7 @@
       <a href="#">LinkedIn</a>
     </div>
   </footer>
-
-
-
+ 
 </body>
 
 </html>
