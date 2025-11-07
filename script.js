@@ -25,7 +25,6 @@ langMenu.querySelectorAll("li").forEach((li) => {
       updateTexts();
     }
     langMenu.classList.remove("show");
-
     cambiarIdioma(currentLang);
     cambiarIdiomaBoton(currentLang);
 
@@ -93,37 +92,167 @@ const searchInput = document.getElementById("searchInput");
 const searchIcon = document.getElementById("searchIcon");
 const productsContainer = document.getElementById("productsContainer");
 
-// === HISTORIAL DE BÚSQUEDA ===
-let historialBusquedas = JSON.parse(localStorage.getItem("historialBusquedas")) || [];
+// === HISTORIAL DE PRODUCTOS BUSCADOS ===
+let historialProductos = JSON.parse(localStorage.getItem("historialProductos")) || [];
 
-function guardarBusqueda(termino) {
-  if (!termino) return;
-  termino = termino.toLowerCase();
-  // Evitar duplicados
-  if (!historialBusquedas.includes(termino)) {
-    historialBusquedas.unshift(termino); // al principio
-    if (historialBusquedas.length > 8) historialBusquedas.pop(); // máximo 8
-    localStorage.setItem("historialBusquedas", JSON.stringify(historialBusquedas));
+// Guardar un producto individual en el historial
+function guardarProductoHistorial(producto) {
+  if (!producto || !producto.nombre) return;
+
+// Evitar duplicados por nombre
+  const existe = historialProductos.some(p => p.nombre === producto.nombre);
+  if (!existe) {
+    historialProductos.unshift(producto); // Agregar al inicio
   }
-  mostrarHistorial();
+
+// Limitar el historial a 12 productos
+  if (historialProductos.length > 12) historialProductos = historialProductos.slice(0, 12);
+
+  // Guardar en localStorage y actualizar vista
+  localStorage.setItem("historialProductos", JSON.stringify(historialProductos));
+  mostrarHistorialProductos();
+}
+// Guardar varios productos (desde una búsqueda)
+function guardarHistorialProductos(lista) {
+  if (!lista || lista.length === 0) return;
+  lista.forEach(prod => guardarProductoHistorial(prod));
 }
 
-function mostrarHistorial() {
-  const contHistorial = document.getElementById("searchHistory");
-  contHistorial.innerHTML = "";
-  historialBusquedas.forEach(term => {
-    const li = document.createElement("li");
-    li.textContent = term;
-    li.addEventListener("click", () => {
-      searchInput.value = term;
-      buscarProducto();
+// Mostrar el slider de historial
+function mostrarHistorialProductos() {
+  const cont = document.getElementById("searchHistorySlider");
+  if (!cont) return;
+
+  cont.innerHTML = "";
+
+  if (historialProductos.length === 0) {
+    cont.innerHTML = `<p style="color:#666; padding:10px;">Aún no has visto ningún producto.</p>`;
+    return;
+  }
+
+  historialProductos.forEach((p, index) => {
+    const div = document.createElement("div");
+    div.classList.add("slider-item");
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.nombre}">
+      <h4>${p.nombre}</h4>
+      <p>${p.precio} €</p>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+        <button class="buy-btn-small" data-nombre="${p.nombre}">🛒 Comprar</button>
+        <button class="delete-btn" data-index="${index}" title="Eliminar">🗑</button>
+      </div>
+    `;
+    cont.appendChild(div);
+  });
+
+  // Eliminar producto individualmente
+  document.querySelectorAll(".delete-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation(); // evita que se dispare el click del div
+      const index = e.target.dataset.index;
+      historialProductos.splice(index, 1);
+      localStorage.setItem("historialProductos", JSON.stringify(historialProductos));
+      mostrarHistorialProductos(); // refrescar el slider
     });
-    contHistorial.appendChild(li);
+  });
+
+  // Evento para agregar al carrito 
+  document.querySelectorAll(".buy-btn-small").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      const nombre = e.target.dataset.nombre;
+      const prod = historialProductos.find(p => p.nombre === nombre);
+      if (prod) {
+        carrito.push(prod);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        alert(`🛒 "${prod.nombre}" añadido al carrito`);
+      }
+    });
   });
 }
+// Control de scroll del slider
+document.getElementById("prevHistory").addEventListener("click", () => {
+  document.getElementById("searchHistorySlider").scrollBy({ left: -200, behavior: "smooth" });
+});
+document.getElementById("nextHistory").addEventListener("click", () => {
+  document.getElementById("searchHistorySlider").scrollBy({ left: 200, behavior: "smooth" });
+});
 
 // Mostrar historial al cargar
-document.addEventListener("DOMContentLoaded", mostrarHistorial);
+document.addEventListener("DOMContentLoaded", mostrarHistorialProductos);
+
+function mostrarProductos() {
+  const cont = document.getElementById("productsContainer");
+  cont.innerHTML = "";
+
+  // filtros por categoría y género
+  let lista = productos.filter(p =>
+    (filtros.categoria === "all" || p.categoria === filtros.categoria) &&
+    (filtros.genero === "all" || p.genero === filtros.genero)
+  );
+
+  // aplicar búsqueda si hay texto
+  if (terminoBusqueda) {
+    lista = lista.filter(p =>
+      p.nombre.toLowerCase().includes(terminoBusqueda) ||
+      p.categoria.toLowerCase().includes(terminoBusqueda) ||
+      p.genero.toLowerCase().includes(terminoBusqueda)
+    );
+  }
+
+  // ordenar por precio
+  if (filtros.precio === "asc") lista.sort((a, b) => a.precio - b.precio);
+  else if (filtros.precio === "desc") lista.sort((a, b) => b.precio - a.precio);
+
+  // si no hay nada que mostrar
+  if (lista.length === 0) {
+    cont.innerHTML = `<p style="text-align:center; font-size:18px; color:#666;">No se encontraron productos.</p>`;
+    document.getElementById("prevBtn").disabled = true;
+    document.getElementById("nextBtn").disabled = true;
+    return;
+  }
+
+  // paginación
+  const inicio = (paginaActual - 1) * productosPorPagina;
+  const fin = inicio + productosPorPagina;
+  const pagina = lista.slice(inicio, fin);
+
+  // recorre productos de esta página
+  pagina.forEach(p => {
+    const div = document.createElement("div");
+    div.classList.add("product");
+
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.nombre}">
+      <h4>${p.nombre}</h4>     
+      <p class="price"><strong>${p.precio} €</strong></p>
+      <div style="display:flex; gap:6px; margin-top:8px;">        
+        <button class="buy-btn" data-nombre="${p.nombre}" style="display:flex; align-items:center; gap:6px;">
+          <img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px;">
+          <span style="color: white;">Comprar ahora</span>
+        </button>
+      </div>
+    `;
+
+    //  Al hacer clic en el producto o su botón, lo añadimos al historial
+    div.addEventListener("click", () => guardarProductoHistorial(p));   
+    cont.appendChild(div);
+  });
+
+  // actualizar botones de paginación
+  document.getElementById("prevBtn").disabled = paginaActual === 1;
+  document.getElementById("nextBtn").disabled = fin >= lista.length;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 //  VARIABLES GLOBALES
@@ -155,11 +284,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // FUNCIÓN DE BÚSQUEDA 
 function buscarProducto() {
   terminoBusqueda = searchInput.value.trim().toLowerCase();
-  if (terminoBusqueda !== "") {
-    guardarBusqueda(terminoBusqueda);
-  }
   paginaActual = 1;
   mostrarProductos();
+
+  // Guardar productos de esta búsqueda en el historial visual
+  const resultados = productos.filter(p =>
+    p.nombre.toLowerCase().includes(terminoBusqueda) ||
+    p.categoria.toLowerCase().includes(terminoBusqueda) ||
+    p.genero.toLowerCase().includes(terminoBusqueda)
+  );
+
+  if (resultados.length > 0) guardarHistorialProductos(resultados);
 }
 
 // Eventos: clic en la lupa o Enter
@@ -171,7 +306,7 @@ if (searchInput) {
     if (e.key === "Enter") buscarProducto();
   });
 
-  // si borra todo el texto → volver a mostrar todo
+  // si se borra todo el texto vuelve a mostrarlo todo
   searchInput.addEventListener("input", () => {
     if (searchInput.value.trim() === "") {
       terminoBusqueda = "";
@@ -246,7 +381,6 @@ function mostrarProductos() {
   pagina.forEach(p => {
   const div = document.createElement("div");
   div.classList.add("product");
-
   div.innerHTML = `
     <img src="${p.img}" alt="${p.nombre}">
     <h4>${p.nombre}</h4>     
@@ -259,20 +393,28 @@ function mostrarProductos() {
     </div>
   `;
 
-  // ✅ Nuevo: guardar el producto en el historial al hacer clic en él
-  div.addEventListener("click", () => {
-    guardarBusqueda(p.nombre);
-  });
+  // Guarda el producto en el historial al hacer clic en él
+  
+div.addEventListener("click", () => {
+  guardarProductoHistorial(p);
+});
 
   cont.appendChild(div);
 });
 
-  // actualizar botones de paginación
+  // Actualiza botones de paginación
   document.getElementById("prevBtn").disabled = paginaActual === 1;
   document.getElementById("nextBtn").disabled = fin >= lista.length;
 }
 
-
+// Botón: borrar historial completo
+document.getElementById("clearHistoryBtn").addEventListener("click", () => {
+  if (confirm("¿Deseas borrar todo el historial de productos vistos?")) {
+    historialProductos = [];
+    localStorage.setItem("historialProductos", JSON.stringify(historialProductos));
+    mostrarHistorialProductos();
+  }
+});
 
 
 

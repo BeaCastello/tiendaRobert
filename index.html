@@ -188,10 +188,16 @@
   </div>
 
   <!-- Historial de búsqueda -->
-<div class="search-history" id="searchHistoryContainer">
-  <h3>Historial de búsquedas</h3>
-  <ul id="searchHistory"></ul>
-</div>
+<section class="search-history-slider" id="searchHistoryContainer">
+  <div style="display: flex; justify-content: space-between;">
+  <h3> Tus búsquedas recientes</h3>
+    <button id="clearHistoryBtn" class="clear-history-btn" > <i class="fa-solid fa-trash" style="margin-right: 10px;"></i>Borrar historial</button></div>
+  <div class="slider-wrapper">
+    <button class="slider-btn" id="prevHistory">⬅</button>
+    <div class="slider" id="searchHistorySlider"></div>
+    <button class="slider-btn" id="nextHistory">➡</button>
+  </div>
+</section>
 
   
   <!-- Footer-->
