@@ -185,7 +185,7 @@
     <button id="nextBtn">Siguiente ➡</button>
   </div>
 
-    <!-- Historial de búsqueda -->
+  <!-- Historial de búsqueda -->
   <section class="search-history-slider" id="searchHistoryContainer">
     <div style="display: flex; justify-content: space-between;">
       <h2 style="text-align:center; font-size:28px; margin-bottom:20px;"> Tus búsquedas recientes</h2>
@@ -200,7 +200,7 @@
   </section>
 
 
-   <!--Botones de navegación -->
+  <!--Botones de navegación -->
   <button id="prevSlide" style=" position:absolute; top:50%; left:30px; transform:translateY(-50%);
     background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%;
     width:40px; height:40px; cursor:pointer; font-size:20px;">‹</button>
@@ -211,7 +211,7 @@
   </section>
 
 
-<!-- Conexión al WhatsApp -->
+  <!-- Conexión al WhatsApp -->
   <div class="whatsapp-container" id="whatsapp-container">
     <a href="https://wa.me/34642643599" target="_blank" class="whatsapp-button">
       <span class="whatsapp-text">Contáctanos</span>
@@ -220,26 +220,41 @@
   </div>
 
   <!-- Overlay y panel de carrito -->
-<div id="cart-overlay" class="cart-overlay"></div>
-
-<aside id="cart-panel" class="cart-panel">
-  <header class="cart-header">
-    <h3>Tu carrito</h3>
-    <button id="cart-close" class="cart-close" aria-label="Cerrar">✕</button>
-  </header>
-
-  <div id="cart-items" class="cart-items"></div>
-
-  <footer class="cart-footer">
-    <div class="cart-summary">
-      <span>Subtotal</span>
-      <strong id="cart-total">0,00 €</strong>
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <aside id="cart-panel" class="cart-panel">
+    <div class="cart-header">
+      <h3>Tu carrito</h3>
+      <button id="cart-close" class="cart-close" aria-label="Cerrar">✕</button>
     </div>
-    <div class="cart-actions">
-      <button id="cart-clear" class="cart-btn sec">Vaciar</button>
-      <button id="cart-checkout" class="cart-btn pri">Finalizar compra</button>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <footer class="cart-footer">
+      <div class="cart-summary">
+        <span>Subtotal</span>
+        <strong id="cart-total">0,00 €</strong>
+      </div>
+      <div class="cart-actions">
+        <button id="cart-clear" class="cart-btn sec">Vaciar</button>
+        <button id="cart-checkout" class="cart-btn pri">Finalizar compra</button>
+      </div>
+    </footer>
+
+    <div class="footer">
+      <p class="p-footer">© 2025 La Manigua. Todos los derechos reservados.</p>
+      <div class="payment-methods">
+        <h4 style="margin-top: 15px;">Métodos de Pago</h4>
+        <div class="payment-icons">
+          <img src="imagenes/visa.png" alt="Visa">
+          <img src="imagenes/mastercard.png" alt="Mastercard">
+          <img src="imagenes/Paypal.png" alt="PayPal">
+          <img src="imagenes/icono_bizum.png" alt="Bizum">
+        </div>
+      </div>
+      <footer class="footer">
     </div>
-  </footer>
+    </aside>
+
   <!-- Footer-->
   <footer class="footer">
     <p class="p-footer">© 2025 La Manigua. Todos los derechos reservados.</p>

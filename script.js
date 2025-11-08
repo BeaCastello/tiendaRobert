@@ -93,7 +93,7 @@ const productosPorPagina = 10;
 let terminoBusqueda = "";
 
 
-/* --- FILTROS (igual que antes) --- */
+/* --- FILTROS --- */
 document.querySelectorAll('.dropdown').forEach(drop => {
   const button = drop.querySelector('.dropbtn');
   const menu = drop.querySelector('.dropdown-content');
@@ -153,7 +153,7 @@ function mostrarProductos() {
   document.getElementById('prevBtn').disabled = paginaActual === 1;
   document.getElementById('nextBtn').disabled = fin >= lista.length;
 
-  // Delegación: escuchar clicks en botones "Añadir"
+  // botones "Añadir"
   cont.querySelectorAll('.add-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = parseInt(btn.dataset.id, 10);
@@ -188,10 +188,6 @@ document.getElementById("prevBtn").addEventListener("click", () => {
 }
 });
 
-document.getElementById("nextBtn").addEventListener("click", () => {
- paginaActual++;
-mostrarProductos();
-});
 
 // Mostrar primera página al cargar
 document.addEventListener("DOMContentLoaded", () => {
@@ -216,8 +212,8 @@ function guardarProductoHistorial(producto) {
     historialProductos.unshift(producto); // Agregar al inicio
   }
 
-  // Limita el historial a 12 productos
-  if (historialProductos.length > 12) historialProductos = historialProductos.slice(0, 12);
+  // Limita el historial a 10 productos
+   if (historialProductos.length > 10) historialProductos = historialProductos.slice(0, 10);
 
   // Guarda en localStorage y actualizar vista
   localStorage.setItem("historialProductos", JSON.stringify(historialProductos));
@@ -259,11 +255,11 @@ function mostrarHistorialProductos() {
   // Elimina producto individualmente
   document.querySelectorAll(".delete-btn").forEach(btn => {
     btn.addEventListener("click", e => {
-      e.stopPropagation(); // evita que se dispare el click del div
+      e.stopPropagation(); 
       const index = e.target.dataset.index;
       historialProductos.splice(index, 1);
       localStorage.setItem("historialProductos", JSON.stringify(historialProductos));
-      mostrarHistorialProductos(); // refrescar el slider
+      mostrarHistorialProductos(); 
     });
   });
 }
@@ -487,8 +483,8 @@ if (window.scrollY > 300) {
  }
       })
 
-      // ======= CARRITO =======
-let cart = JSON.parse(localStorage.getItem('cart') || '[]'); // [{id, qty}]
+      // CARRITO 
+let cart = JSON.parse(localStorage.getItem('cart') || '[]'); 
 const cartBtn       = document.getElementById('cart-btn');
 const cartCount     = document.getElementById('cart-count');
 const cartPanel     = document.getElementById('cart-panel');
@@ -612,8 +608,7 @@ cartClearBtn && cartClearBtn.addEventListener('click', ()=>{
 });
 
 cartCheckout && cartCheckout.addEventListener('click', ()=>{
-  if(cart.length===0){ alert('Tu carrito está vacío.'); return; }
-  // Aquí puedes redirigir a tu checkout/pasarela o generar un resumen:
+  if(cart.length===0){ alert('Tu carrito está vacío.'); return; }  
   const resumen = cart.map(it=>{
     const p = productos[it.id];
     return `${p.nombre} x ${it.qty} = ${formatEUR(p.precio*it.qty)}`;
@@ -621,8 +616,8 @@ cartCheckout && cartCheckout.addEventListener('click', ()=>{
   alert(`Resumen de compra:\n\n${resumen}\n\nTotal: ${formatEUR(calcTotal())}`);
 });
 
-// ======= Ganchos para los botones existentes =======
-// 1) Botones .add-btn (tus cards con data-id)
+
+//  Botones adiccionar
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('.add-btn');
   if(!btn) return;
@@ -630,7 +625,7 @@ document.addEventListener('click', (e)=>{
   addToCartById(id, 1);
 });
 
-// 2) Botones "Comprar ahora" .buy-btn (pueden venir con data-id o data-nombre)
+//  Botones "Comprar ahora" 
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('.buy-btn');
   if(!btn) return;
@@ -638,15 +633,14 @@ document.addEventListener('click', (e)=>{
   const nombre = btn.dataset.nombre;
   if(id!=null) addToCartById(id, 1);
   else if(nombre) addToCartByName(nombre, 1);
-  else{
-    // Si no hay dataset, intenta inferir por el <h4> más cercano
+  else{    
     const card = btn.closest('.product');
     const title = card ? card.querySelector('h4')?.textContent?.trim() : null;
     if(title) addToCartByName(title, 1);
   }
 });
 
-// 3) Botones del slider historial .buy-btn-small (usan data-nombre)
+// Botones del slider historial 
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('.buy-btn-small');
   if(!btn) return;
@@ -654,7 +648,7 @@ document.addEventListener('click', (e)=>{
   if(nombre) addToCartByName(nombre, 1);
 });
 
-// ======= Inicialización al cargar =======
+// Inicialización al cargar 
 document.addEventListener('DOMContentLoaded', ()=>{
   updateCartBadge();
   renderCart();
