@@ -135,12 +135,6 @@
     </div>
   </div>
 
-  <!-- Contenedor de busquedas-->
-  <div class="products-container">
-    <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 20px;">Nuestros productos</h3>
-  </div>
-
-
   <!-- Buscador-->
   <div class="search-bar">
     <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
@@ -177,29 +171,75 @@
         <a href="#" data-value="desc">Mayor a menor precio</a>
       </div>
     </div>
+    <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
+  </div>
   </div>
 
   <!-- Contenedor de productos-->
-  <div class="products-container" id="productsContainer"></div>
+  <div class="products-container" id="productsContainer">
+    <h3 style="justify-content: center; text-align: center; font-size: 24px; margin-top: 20px;">Nuestros productos</h3>
+  </div>
 
-  <div class="pagination">    
+  <div class="pagination">
     <button id="prevBtn">⬅ Anterior</button>
-    <button id="nextBtn">Siguiente ➡</button>    
+    <button id="nextBtn">Siguiente ➡</button>
   </div>
 
-  <!-- Historial de búsqueda -->
-<section class="search-history-slider" id="searchHistoryContainer">
-  <div style="display: flex; justify-content: space-between;">
-  <h3> Tus búsquedas recientes</h3>
-    <button id="clearHistoryBtn" class="clear-history-btn" > <i class="fa-solid fa-trash" style="margin-right: 10px;"></i>Borrar historial</button></div>
-  <div class="slider-wrapper">
-    <button class="slider-btn" id="prevHistory">⬅</button>
-    <div class="slider" id="searchHistorySlider"></div>
-    <button class="slider-btn" id="nextHistory">➡</button>
-  </div>
-</section>
+    <!-- Historial de búsqueda -->
+  <section class="search-history-slider" id="searchHistoryContainer">
+    <div style="display: flex; justify-content: space-between;">
+      <h2 style="text-align:center; font-size:28px; margin-bottom:20px;"> Tus búsquedas recientes</h2>
+      <button id="clearHistoryBtn" class="clear-history-btn"> <i class="fa-solid fa-trash"
+          style="margin-right: 10px;"></i>Borrar historial</button>
+    </div>
+    <div class="slider-wrapper">
+      <button class="slider-btn" id="prevHistory">⬅</button>
+      <div class="slider" id="searchHistorySlider"></div>
+      <button class="slider-btn" id="nextHistory">➡</button>
+    </div>
+  </section>
 
-  
+
+   <!--Botones de navegación -->
+  <button id="prevSlide" style=" position:absolute; top:50%; left:30px; transform:translateY(-50%);
+    background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%;
+    width:40px; height:40px; cursor:pointer; font-size:20px;">‹</button>
+
+  <button id="nextSlide" style=" position:absolute; top:50%; right:30px; transform:translateY(-50%);
+    background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%;
+    width:40px; height:40px; cursor:pointer; font-size:20px;">›</button>
+  </section>
+
+
+<!-- Conexión al WhatsApp -->
+  <div class="whatsapp-container" id="whatsapp-container">
+    <a href="https://wa.me/34642643599" target="_blank" class="whatsapp-button">
+      <span class="whatsapp-text">Contáctanos</span>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon">
+    </a>
+  </div>
+
+  <!-- Overlay y panel de carrito -->
+<div id="cart-overlay" class="cart-overlay"></div>
+
+<aside id="cart-panel" class="cart-panel">
+  <header class="cart-header">
+    <h3>Tu carrito</h3>
+    <button id="cart-close" class="cart-close" aria-label="Cerrar">✕</button>
+  </header>
+
+  <div id="cart-items" class="cart-items"></div>
+
+  <footer class="cart-footer">
+    <div class="cart-summary">
+      <span>Subtotal</span>
+      <strong id="cart-total">0,00 €</strong>
+    </div>
+    <div class="cart-actions">
+      <button id="cart-clear" class="cart-btn sec">Vaciar</button>
+      <button id="cart-checkout" class="cart-btn pri">Finalizar compra</button>
+    </div>
+  </footer>
   <!-- Footer-->
   <footer class="footer">
     <p class="p-footer">© 2025 La Manigua. Todos los derechos reservados.</p>
@@ -218,7 +258,7 @@
       <a href="#">LinkedIn</a>
     </div>
   </footer>
- 
+
 </body>
 
 </html>
