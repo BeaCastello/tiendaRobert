@@ -86,6 +86,8 @@ const productos = [
   { nombre: "Smartphone", categoria: "Electrónica", genero: "Todos", precio: 55, img: "imagenes/smartphone.png" },
 ];
 
+
+
 //  VARIABLES GLOBALES
 let filtros = { categoria: "all", genero: "all", precio: "relevancia" };
 let paginaActual = 1;
@@ -608,14 +610,17 @@ cartClearBtn && cartClearBtn.addEventListener('click', ()=>{
 });
 
 cartCheckout && cartCheckout.addEventListener('click', ()=>{
-  if(cart.length===0){ alert('Tu carrito está vacío.'); return; }  
-  const resumen = cart.map(it=>{
-    const p = productos[it.id];
-    return `${p.nombre} x ${it.qty} = ${formatEUR(p.precio*it.qty)}`;
-  }).join('\n');
-  alert(`Resumen de compra:\n\n${resumen}\n\nTotal: ${formatEUR(calcTotal())}`);
-});
+  if(cart.length === 0){
+    alert('Tu carrito está vacío.');
+    return;
+  }
+// Guarda el carrito y total en localStorage para usar en checkout.html
+  localStorage.setItem('cart', JSON.stringify(cart));
+  localStorage.setItem('cartTotal', calcTotal());
 
+  // Redirige a la página de checkout
+  window.location.href = 'finalizarcompra.html';
+});
 
 //  Botones adiccionar
 document.addEventListener('click', (e)=>{
