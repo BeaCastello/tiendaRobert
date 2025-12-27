@@ -67,7 +67,6 @@ setInterval(() => {
   showSlide(next);
 }, 6000);
 
-
 // LISTA 
 const productos = [
   { nombre: "Camiseta básica", categoria: "Ropa", genero: "Hombre", precio: 20, img: "imagenes/camisetas.png" },
@@ -85,7 +84,6 @@ const productos = [
   { nombre: "Laptop", categoria: "Electrónica", genero: "Todos", precio: 180, img: "imagenes/laptop.png" },
   { nombre: "Smartphone", categoria: "Electrónica", genero: "Todos", precio: 55, img: "imagenes/smartphone.png" },
 ];
-
 
 
 //  VARIABLES GLOBALES
@@ -180,14 +178,6 @@ document.getElementById('prevBtn').addEventListener('click', () => {
 document.getElementById('nextBtn').addEventListener('click', () => {
   paginaActual++;
   mostrarProductos();
-});
-
-/* ---BOTONES DE PAGINACIÓN--- */
-document.getElementById("prevBtn").addEventListener("click", () => {
- if (paginaActual > 1) {
- paginaActual--;
- mostrarProductos();
-}
 });
 
 
@@ -374,7 +364,7 @@ if (searchInput) {
   });
 }
 
-// FILTROS 
+// FILTROS PARA BUSQUEDA INMEDIATA
 
 document.querySelectorAll(".dropdown").forEach(drop => {
   const button = drop.querySelector(".dropbtn");
@@ -460,11 +450,7 @@ function mostrarProductos() {
     cont.appendChild(div);
   });
 
-  // Actualiza botones de paginación
-  document.getElementById("prevBtn").disabled = paginaActual === 1;
-  document.getElementById("nextBtn").disabled = fin >= lista.length;
-}
-
+  
 // Botón: borrar historial completo
 document.getElementById("clearHistoryBtn").addEventListener("click", () => {
   if (confirm("¿Deseas borrar todo el historial de productos vistos?")) {
@@ -473,9 +459,6 @@ document.getElementById("clearHistoryBtn").addEventListener("click", () => {
     mostrarHistorialProductos();
   }
 });
-
-// Conectar con el whatsapp
- const whatsapp = document.getElementById("whatsapp-container");
 
 window.addEventListener("scroll", () => {
 if (window.scrollY > 300) {
@@ -486,7 +469,6 @@ if (window.scrollY > 300) {
       })
 
       // CARRITO 
-let cart = JSON.parse(localStorage.getItem('cart') || '[]'); 
 const cartBtn       = document.getElementById('cart-btn');
 const cartCount     = document.getElementById('cart-count');
 const cartPanel     = document.getElementById('cart-panel');
@@ -499,6 +481,16 @@ const cartCheckout  = document.getElementById('cart-checkout');
 
 function saveCart(){ localStorage.setItem('cart', JSON.stringify(cart)); }
 function findCartIndexById(id){ return cart.findIndex(i => i.id === id); }
+
+let cartRaw = localStorage.getItem('cart');
+let cart;
+try {
+  cart = JSON.parse(cartRaw || '[]');
+} catch (e) {
+  cart = [];
+}
+if (!Array.isArray(cart)) cart = [];
+
 
 function addToCartById(id, qty=1){
   const prod = productos[id];
@@ -658,3 +650,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateCartBadge();
   renderCart();
 });
+
+// Conectar con el whatsapp
+ const whatsapp = document.getElementById("whatsapp-container");
+
+window.addEventListener("scroll", () => {
+if (window.scrollY > 300) {
+  whatsapp.classList.add("show");
+ } else
+     {    whatsapp.classList.remove("show");
+ }
+      })}
+
+      

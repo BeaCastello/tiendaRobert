@@ -1,46 +1,296 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finalizar compra</title>
-  <link rel="stylesheet" href="finalizarcompra.css"> 
-  <script src="finalizarcompra.js" defer></script>
-    
+    <meta charset="UTF-8">
+    <title>Finalizar compra</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="checkout-container">
-    <h2>Finalizar compra</h2>
 
-    <div id="cart-items" class="cart-items"></div>
+    <h2 style="text-align:center; margin-top:20px;">Finalizar compra</h2>
 
-    <div class="cart-summary">
-      Total: <span id="cart-total">0,00 €</span>
-    </div>
+    <div style="max-width:900px; margin:auto; padding:20px; display:flex; gap:40px;">
 
-    <h3>Datos de envío</h3>
-    <form id="checkout-form">
-      <label>Nombre completo</label>
-      <input type="text" id="nombre" required>
+        <!-- 🧍 FORMULARIO DEL COMPRADOR -->
+        <div style="flex:1; border:1px solid #ddd; padding:20px; border-radius:10px;">
+            <h3>Datos del comprador</h3>
 
-      <label>Correo electrónico</label>
-      <input type="email" id="email" required>
+            <form id="checkout-form">
 
-      <label>Dirección</label>
-      <textarea id="direccion" rows="3" required></textarea>
+                <label>Nombre *</label>
+                <input type="text" id="nombre" required style="width:100%; padding:8px; margin-bottom:10px;">
 
-      <label>Método de pago</label>
-      <select id="pago" required>
-        <option value="">Selecciona uno</option>
-        <option value="tarjeta">Tarjeta de crédito / débito</option>
-        <option value="transferencia">Transferencia bancaria</option>
-        <option value="paypal">PayPal</option>
-      </select>
+                <label>Apellidos *</label>
+                <input type="text" id="apellidos" required style="width:100%; padding:8px; margin-bottom:10px;">
 
-      <button type="submit">Confirmar pedido</button>
-    </form>
-  </div>
+                <label>Email *</label>
+                <input type="email" id="email" required style="width:100%; padding:8px; margin-bottom:10px;">
 
- 
+                <label>Teléfono *</label>
+                <input type="tel" id="telefono" required style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>Dirección *</label>
+                <input type="text" id="direccion" required style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>Ciudad *</label>
+                <input type="text" id="ciudad" required style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>Código Postal *</label>
+                <input type="text" id="cp" required style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>País *</label>
+                <input type="text" id="pais" required style="width:100%; padding:8px; margin-bottom:10px;">
+
+            </form>
+        </div>
+
+
+        <!-- 🛒 RESUMEN DE COMPRA -->
+        <div style="flex:1; border:1px solid #ddd; padding:20px; border-radius:10px;">
+            <h3>Resumen del pedido</h3>
+
+            <div id="checkout-items"></div>
+
+            <hr>
+
+            <p style="font-size:18px;">
+                Subtotal: <strong id="subtotal"></strong>
+            </p>
+
+            <p style="font-size:18px;">
+                Envío: <strong>5,00 €</strong>
+            </p>
+
+            <p style="font-size:20px; margin-top:10px;">
+                Total final: <strong id="total-final"></strong>
+            </p>
+
+            <h3 style="margin-top:25px;">Método de pago</h3>
+
+            <select id="metodoPago" style="width:100%; padding:10px; margin-bottom:20px;">
+                <option value="">Seleccione un método</option>
+                <option value="tarjeta">Tarjeta (Visa / Mastercard)</option>
+                <option value="paypal">PayPal</option>
+                <option value="bizum">Bizum</option>
+            </select>
+
+            <!-- FORMULARIO DE PAGO CON TARJETA -->
+            <div id="formTarjeta"
+                style="display:none; border:1px solid #ccc; padding:15px; border-radius:8px; margin-top:15px;">
+                <label>Nombre del titular</label>
+                <input type="text" id="titular" style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>Número de tarjeta</label>
+                <input type="text" id="numTarjeta" maxlength="16" placeholder="1111222233334444"
+                    style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>Fecha de expiración</label>
+                <input type="text" id="exp" maxlength="5" placeholder="MM/AA"
+                    style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>CVV</label>
+                <input type="password" id="cvv" maxlength="3" placeholder="123"
+                    style="width:100%; padding:8px; margin-bottom:10px;">
+            </div>
+
+            <!-- FORMULARIO DE PAGO CON PAYPAL-->
+            <div id="formPayPal"
+                style="display:none; border:1px solid #ccc; padding:15px; border-radius:8px; margin-top:15px;">
+                <label>Email de PayPal *</label>
+                <input type="email" id="paypalEmail" placeholder="usuario@correo.com"
+                    style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>Confirmar email *</label>
+                <input type="email" id="paypalEmail2" placeholder="Repite tu email"
+                    style="width:100%; padding:8px; margin-bottom:10px;">
+            </div>
+
+            <!-- FORMULARIO DE PAGO CON BIZUM -->
+            <div id="formBizum"
+                style="display:none; border:1px solid #ccc; padding:15px; border-radius:8px; margin-top:15px;">
+                <label>Número de teléfono asociado a Bizum *</label>
+                <input type="text" id="bizumTelefono" maxlength="9" placeholder="600123456"
+                    style="width:100%; padding:8px; margin-bottom:10px;">
+
+                <label>Código Bizum (generado desde tu app bancaria) *</label>
+                <input type="text" id="bizumCodigo" maxlength="6" placeholder="123456"
+                    style="width:100%; padding:8px; margin-bottom:10px;">
+            </div>
+
+            <button onclick="confirmarPedido()"
+                style="margin-top:25px; padding:12px 20px; background:black; color:white; width:100%;">
+                Confirmar pedido
+            </button>
+
+            <script>
+                /* ---------------------------
+                    LISTA DE PRODUCTOS (MISMA QUE TU JS PRINCIPAL)
+                ---------------------------- */
+                const productos = [
+                    { nombre: "Camiseta básica", precio: 20, img: "imagenes/camisetas.png" },
+                    { nombre: "Zapatillas deportivas", precio: 60, img: "imagenes/zapatillas.png" },
+                    { nombre: "Auriculares Bluetooth", precio: 45, img: "imagenes/auriculares.png" },
+                    { nombre: "Pantalón vaquero", precio: 40, img: "imagenes/pantalon.png" },
+                    { nombre: "Bolso de cuero", precio: 90, img: "imagenes/bolso_cuero.png" },
+                    { nombre: "Sudadera oversize", precio: 35, img: "imagenes/sudadera.png" },
+                    { nombre: "Reloj inteligente", precio: 120, img: "imagenes/relojes.png" },
+                    { nombre: "Zapatos de vestir", precio: 70, img: "imagenes/calzado_vestir.png" },
+                    { nombre: "Auriculares Pro", precio: 180, img: "imagenes/auricularespro.png" },
+                    { nombre: "Chaqueta impermeable", precio: 55, img: "imagenes/chaqueta_impermiable.png" },
+                    { nombre: "Sandalias verano", precio: 30, img: "imagenes/sandalia_verano.png" },
+                    { nombre: "Silla", precio: 110, img: "imagenes/silla1.png" },
+                    { nombre: "Laptop", precio: 180, img: "imagenes/laptop.png" },
+                    { nombre: "Smartphone", precio: 55, img: "imagenes/smartphone.png" }
+                ];
+
+
+                /* ---------------------------
+                      CARGAR DATOS DEL CARRITO
+                ---------------------------- */
+                function cargarCheckout() {
+                    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+                    const subtotalGuardado = parseFloat(localStorage.getItem("cartTotal") || "0");
+
+                    const cont = document.getElementById("checkout-items");
+                    cont.innerHTML = "";
+
+                    cart.forEach(item => {
+                        const p = productos[item.id];
+
+                        const div = document.createElement("div");
+                        div.style.display = "flex";
+                        div.style.gap = "20px";
+                        div.style.marginBottom = "15px";
+                        div.style.alignItems = "center";
+
+                        div.innerHTML = `
+            <img src="${p.img}" style="width:70px; height:70px; border-radius:8px;">
+            <div style="flex:1;">
+                <h4>${p.nombre}</h4>
+                <p>Cantidad: ${item.qty}</p>
+                <p>${p.precio} €</p>
+            </div>
+            <strong>${(p.precio * item.qty).toFixed(2)} €</strong>
+        `;
+
+                        cont.appendChild(div);
+                    });
+
+                    document.getElementById("subtotal").textContent =
+                        subtotalGuardado.toFixed(2).replace(".", ",") + " €";
+
+                    const envio = 5;
+                    const totalFinal = subtotalGuardado + envio;
+
+                    document.getElementById("total-final").textContent =
+                        totalFinal.toFixed(2).replace(".", ",") + " €";
+                }
+
+
+                /* ---------------------------
+                          CONFIRMAR PEDIDO
+                ---------------------------- */
+                function confirmarPedido() {
+
+                    /* Validación datos del comprador */
+                    const campos = ["nombre", "apellidos", "email", "telefono", "direccion", "ciudad", "cp", "pais"];
+                    for (let c of campos) {
+                        if (!document.getElementById(c).value.trim()) {
+                            alert("Por favor, completa todos los campos obligatorios.");
+                            return;
+                        }
+                    }
+
+                    const metodo = document.getElementById("metodoPago").value;
+
+                    if (!metodo) {
+                        alert("Seleccione un método de pago.");
+                        return;
+                    }
+
+                    // Validación TARJETA
+                    if (metodo === "tarjeta") {
+                        if (
+                            !document.getElementById("titular").value.trim() ||
+                            !document.getElementById("numTarjeta").value.trim() ||
+                            !document.getElementById("exp").value.trim() ||
+                            !document.getElementById("cvv").value.trim()
+                        ) {
+                            alert("Complete todos los datos de la tarjeta.");
+                            return;
+                        }
+                    }
+
+                    // Validación PAYPAL
+                    if (metodo === "paypal") {
+
+                        const email1 = document.getElementById("paypalEmail").value.trim();
+                        const email2 = document.getElementById("paypalEmail2").value.trim();
+
+                        if (!email1 || !email2) {
+                            alert("Debe ingresar y confirmar su email de PayPal.");
+                            return;
+                        }
+
+                        if (email1 !== email2) {
+                            alert("Los emails de PayPal no coinciden.");
+                            return;
+                        }
+                    }
+
+                    // Validación BIZUM
+                    if (metodo === "bizum") {
+
+                        if (
+                            !document.getElementById("bizumTelefono").value.trim() ||
+                            !document.getElementById("bizumCodigo").value.trim()
+                        ) {
+                            alert("Ingrese su teléfono y el código Bizum.");
+                            return;
+                        }
+                    }
+
+
+                    alert("¡Pedido confirmado!\nGracias por tu compra 😊");
+
+                    localStorage.removeItem("cart");
+                    localStorage.removeItem("cartTotal");
+
+                    window.location.href = "index.html";
+                }
+                cargarCheckout();
+
+                document.getElementById("metodoPago").addEventListener("change", function () {
+                    const formTarjeta = document.getElementById("formTarjeta");
+
+                    if (this.value === "tarjeta") {
+                        formTarjeta.style.display = "block";
+                    } else {
+                        formTarjeta.style.display = "none";
+                    }
+                });
+
+
+                document.getElementById("metodoPago").addEventListener("change", function () {
+
+                    const formTarjeta = document.getElementById("formTarjeta");
+                    const formPayPal = document.getElementById("formPayPal");
+                    const formBizum = document.getElementById("formBizum");
+
+                    // Ocultar todos
+                    formTarjeta.style.display = "none";
+                    formPayPal.style.display = "none";
+                    formBizum.style.display = "none";
+
+                    // Mostrar según selección
+                    if (this.value === "tarjeta") formTarjeta.style.display = "block";
+                    if (this.value === "paypal") formPayPal.style.display = "block";
+                    if (this.value === "bizum") formBizum.style.display = "block";
+                });
+            </script>
+
 </body>
+
 </html>
