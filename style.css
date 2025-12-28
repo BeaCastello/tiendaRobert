@@ -445,6 +445,13 @@ header {
 .product h4 { margin: 10px 0 5px; }
 .product p { margin: 2px 0; font-size: 14px; color: #555; }
 
+@media (max-width: 480px){
+  .products-container {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+}
 
 /* ==== PAGINACIÓN ==== */
 .pagination {
@@ -606,9 +613,18 @@ header {
   background: #b1b0af;
 }
 
-
-
-
+@media (max-width: 480px){
+  .clear-history-btn{
+    padding: 20px;
+    width: 200px;
+    justify-content:center;
+    margin-left: 70px;
+    margin-bottom: 30px;
+  }
+  .slider-btn{
+    height: 30px;
+  }
+}
 
 /* Estilo Whatsapp */
 .whatsapp-container {
@@ -624,6 +640,7 @@ header {
 }
 .whatsapp-container img{
   width: 65px;
+  
 }
 
 /* Botón de WhatsApp */
@@ -723,7 +740,7 @@ header {
 .cart-item .price{ color:#444; font-weight:600; }
 .cart-item .line-total{ font-weight:700; }
 .qty{ display:flex; align-items:center; gap:6px; }
-.qty button{ width:26px; height:26px; border:1px solid #ddd; background:#f9f9f9; cursor:pointer; border-radius:6px;}
+.qty button{ height:26px; border:1px solid #ddd; background:#f9f9f9; cursor:pointer; border-radius:6px;}
 .qty input{ width:44px; text-align:center; padding:4px; border:1px solid #ddd; border-radius:6px;}
 .rm-btn{ background:none; border:none; color:#d33; cursor:pointer; font-size:13px; padding:4px 6px; }
 
@@ -732,3 +749,13 @@ header {
 .cart-btn{ width:49%; padding:12px; border-radius:10px; border:none; cursor:pointer; font-weight:600; }
 .cart-btn.pri{ background:#111; color:#fff; }
 .cart-btn.sec{ background:#f4f4f4; }
+
+/* Búsqueda reciente*/
+@media (max-width: 480px){
+
+.history-text{
+display: flex; 
+justify-content: space-between;
+flex-direction: column;
+}
+}
