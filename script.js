@@ -237,12 +237,13 @@ function mostrarHistorialProductos() {
       <h4>${p.nombre}</h4>
       <p>${p.precio} €</p>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
-        <button class="buy-btn-small" data-nombre="${p.nombre}">🛒 Comprar</button>
+        <button class="buy-btn-small" data-nombre="${p.nombre}"><img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px;"> Comprar</button>
         <button class="delete-btn" data-index="${index}" title="Eliminar">🗑</button>
       </div>
     `;
     cont.appendChild(div);
   });
+
 
   // Elimina producto individualmente
   document.querySelectorAll(".delete-btn").forEach(btn => {
@@ -433,8 +434,8 @@ function mostrarProductos() {
     <img src="${p.img}" alt="${p.nombre}">
     <h4>${p.nombre}</h4>     
     <p class="price"><strong>${p.precio} €</strong></p>
-    <div style="display:flex; gap:6px; margin-top:8px;">        
-      <button class="buy-btn" style="display:flex; align-items:center; gap:6px;">
+    <div style="display:flex; gap:6px; margin-top:8px; justify-content: center;">        
+      <button class="buy-btn">
         <img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px;">
         <span style="color: white;">Comprar ahora</span>
       </button>

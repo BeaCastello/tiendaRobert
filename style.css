@@ -254,6 +254,10 @@ header {
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
+  display:flex; 
+  align-items:center;
+   gap:6px;
+   
 }
 
 .dots {
@@ -306,6 +310,7 @@ header {
 
   .buy-btn {
     margin-bottom: 20px;
+    
   }
 }
 
@@ -326,7 +331,7 @@ header {
   }
 
   .center-content {
-    font-size: 15px;
+    font-size: 14px;
     margin-top: 10px
   }
 
@@ -588,13 +593,16 @@ header {
   font-weight: bold;
 }
 .slider-item button {
-  background: #2b7cff;
+  background-color: #ff4d4d;
   color: white;
   border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
+  padding: 2px 10px;
+  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 13px;
+  display:flex; 
+  align-items:center;
+   gap:6px;
 }
 .slider-item button:hover {
   background: #185adb;
