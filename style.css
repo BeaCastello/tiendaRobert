@@ -655,8 +655,7 @@ header {
   background: #185adb;
 }
 
-.clear-history-btn {
-  justify-content: right;
+.clear-history-btn { 
   color: black;
   border: none;
   padding: 7px 12px;
@@ -664,6 +663,7 @@ header {
   cursor: pointer;
   font-size: 14px;
   transition: 0.2s;
+   margin-bottom: 40px;
 }
 
 .clear-history-btn:hover {
@@ -676,7 +676,7 @@ header {
     width: 200px;
     justify-content: center;
     margin-left: 70px;
-    margin-bottom: 30px;
+   
   }
 
   .slider-btn {
