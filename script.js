@@ -451,7 +451,7 @@ function mostrarProductos() {
     cont.appendChild(div);
   });
 
-  
+
 // Botón: borrar historial completo
 document.getElementById("clearHistoryBtn").addEventListener("click", () => {
   if (confirm("¿Deseas borrar todo el historial de productos vistos?")) {

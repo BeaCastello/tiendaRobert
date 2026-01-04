@@ -3,10 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <title>Producto</title>
-  <link rel="stylesheet" href="producto.css">
-  <script src="producto.js" defer></script>
+  <link rel="stylesheet" href="producto.css">   
+  <link rel="icon" href="imagenes/imgLogo-transparente2.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+
+  <header>
+    <div class="left-content">
+      <img src="imagenes/imgLogo.png" alt="Logo" style="width: 120px"> </img>
+    </div>
+
+    <div class="center-content" style="display: flex;">
+      <p style="padding-right: 40px;"> <i class="fa-solid fa-phone"></i> (+34) 637635577</p>
+      <p><i class="fa-solid fa-envelope"></i> designerbrm@gmail.com</p>
+    </div>
+
+    <div class="right-content">
+      <div class="lang-selector">
+        <button id="lang-btn">
+          <img src="https://flagcdn.com/es.svg" alt="ES" class="flag" />
+          <span id="lang-label">ES</span>
+        </button>
+        <ul id="lang-menu" class="lang-menu">
+          <li data-lang="es"><img src="https://flagcdn.com/es.svg" alt="ES" class="flag" /> Español
+          </li>
+          <li data-lang="en"><img src="https://flagcdn.com/gb.svg" alt="EN" class="flag" /> English
+          </li>
+        </ul>
+      </div>
+      <div class="icons">
+        <a href="iniciarSección.html"><i class="fas fa-user" style="color: black; margin-right: 10px;"></i></a></button>
+        <button id="cart-btn" title="Carrito"><i class="fas fa-shopping-cart" style="margin-right: 20px;"></i><span
+            id="cart-count">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Texto animado -->
+  <div class="animated-text-container" id="services">
+    <div class="animated-text"> Envío Estándar gratuito en cualquier compra superior a 40 € </div>
+  </div>
+
+  <!-- Filtros-->
+  <div class="filters">
+    <div class="dropdown" data-filter="categoria">
+      <button class="dropbtn">Categoría ▾</button>
+      <div class="dropdown-content">
+        <a href="#" data-value="all">Todas</a>
+        <a href="#" data-value="Ropa">Ropa</a>
+        <a href="#" data-value="Calzado">Calzado</a>
+        <a href="#" data-value="Electrónica">Electrónica</a>
+        <a href="#" data-value="Hogar">Hogar</a>
+      </div>
+    </div>
+
+    <div class="dropdown" data-filter="genero">
+      <button class="dropbtn">Género ▾</button>
+      <div class="dropdown-content">
+        <a href="#" data-value="all">Todos</a>
+        <a href="#" data-value="Mujer">Mujer</a>
+        <a href="#" data-value="Hombre">Hombre</a>
+      </div>
+    </div>
+
+    <div class="dropdown" data-filter="precio">
+      <button class="dropbtn">Ordenar por ▾</button>
+      <div class="dropdown-content">
+        <a href="#" data-value="relevancia">Relevancia</a>
+        <a href="#" data-value="asc">Menor a mayor precio</a>
+        <a href="#" data-value="desc">Mayor a menor precio</a>
+      </div>
+    </div>
+    <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
+  </div>
+
+
+
+   
+ <!-- Overlay y panel de carrito -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <div id="cart-panel" class="cart-panel">
+    <div class="cart-header">
+      <h3>Tu carrito</h3>
+      <button id="cart-close" class="cart-close" aria-label="Cerrar">✕</button>
+    </div>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <footer class="cart-footer">
+      <div class="cart-summary">
+        <span>Subtotal</span>
+        <strong id="cart-total">0,00 €</strong>
+      </div>
+      <div class="cart-actions">
+        <button id="cart-clear" class="cart-btn sec">Vaciar</button>
+        <button id="cart-checkout" class="cart-btn pri">Finalizar compra</button>
+      </div>
+    </footer>
+
 
 <div class="product-page">
   <!-- IZQUIERDA -->
@@ -53,5 +148,8 @@
   </div>
 </div>
 
+<script src="script.js" defer></script> 
+  <script src="producto.js"></script> 
+ 
 </body>
 </html>
