@@ -421,36 +421,32 @@ function mostrarProductos() {
     return;
   }
 
-  // paginación
+  // Paginación  // 
   const inicio = (paginaActual - 1) * productosPorPagina;
   const fin = inicio + productosPorPagina;
   const pagina = lista.slice(inicio, fin);
 
-  // recorre productos de esta página
-  pagina.forEach(p => {
-    const div = document.createElement("div");
-    div.classList.add("product");
-    div.innerHTML = `
-    <img src="${p.img}" alt="${p.nombre}">
-    <h4>${p.nombre}</h4>     
+  // ENLACE A LA PAGINA DE PRODUCTOS.HTML// 
+ pagina.forEach((p) => {
+  const div = document.createElement("div");
+  div.classList.add("product");
+
+  const prodId = productos.indexOf(p);
+
+  div.innerHTML = `
+    <a href="producto.html?id=${prodId}"> <img src="${p.img}" alt="${p.nombre}"> </a>
+    <h4>${p.nombre}</h4>
     <p class="price"><strong>${p.precio} €</strong></p>
-    <div style="display:flex; gap:6px; margin-top:8px; justify-content: center;">        
-      <button class="buy-btn">
-        <img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px;">
-        <span style="color: white;">Comprar ahora</span>
-      </button>
-    </div>
+    <div style="display:flex; gap:6px; margin-top:8px;"> <button class="buy-btn" data-nombre="${p.nombre}" style="display:flex; align-items:center; gap:6px;"> <img src="imagenes/imgLogo-transparente.png" style="width: 29px; height: 32px;"> <span style="color: white;">Comprar ahora</span> </button> </div>
   `;
 
-    // Guarda el producto en el historial al hacer clic en él
-
-    div.addEventListener("click", () => {
-      guardarProductoHistorial(p);
-    });
-
-    cont.appendChild(div);
+  // Guarda el producto en el historial al hacer clic
+  div.addEventListener("click", () => {
+    guardarProductoHistorial(p);
   });
 
+  cont.appendChild(div);
+});
 
 // Botón: borrar historial completo
 document.getElementById("clearHistoryBtn").addEventListener("click", () => {
@@ -460,6 +456,8 @@ document.getElementById("clearHistoryBtn").addEventListener("click", () => {
     mostrarHistorialProductos();
   }
 });
+
+
 
 window.addEventListener("scroll", () => {
 if (window.scrollY > 300) {
@@ -661,6 +659,6 @@ if (window.scrollY > 300) {
  } else
      {    whatsapp.classList.remove("show");
  }
-      })}
+      })
 
-      
+   }    

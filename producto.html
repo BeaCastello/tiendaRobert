@@ -9,143 +9,15 @@
 </head>
 <body>
 
-  <header>
-    <div class="left-content">
-      <img src="imagenes/imgLogo.png" alt="Logo" style="width: 120px"> </img>
-    </div>
 
-    <div class="center-content" style="display: flex;">
-      <p style="padding-right: 40px;"> <i class="fa-solid fa-phone"></i> (+34) 637635577</p>
-      <p><i class="fa-solid fa-envelope"></i> designerbrm@gmail.com</p>
-    </div>
+   <img id="prod-img">
+<h1 id="prod-name"></h1>
+<p id="prod-category"></p>
+<p id="prod-gender"></p>
+<p id="prod-price"></p>
 
-    <div class="right-content">
-      <div class="lang-selector">
-        <button id="lang-btn">
-          <img src="https://flagcdn.com/es.svg" alt="ES" class="flag" />
-          <span id="lang-label">ES</span>
-        </button>
-        <ul id="lang-menu" class="lang-menu">
-          <li data-lang="es"><img src="https://flagcdn.com/es.svg" alt="ES" class="flag" /> Español
-          </li>
-          <li data-lang="en"><img src="https://flagcdn.com/gb.svg" alt="EN" class="flag" /> English
-          </li>
-        </ul>
-      </div>
-      <div class="icons">
-        <a href="iniciarSección.html"><i class="fas fa-user" style="color: black; margin-right: 10px;"></i></a></button>
-        <button id="cart-btn" title="Carrito"><i class="fas fa-shopping-cart" style="margin-right: 20px;"></i><span
-            id="cart-count">0</span></button>
-      </div>
-    </div>
-  </header>
+<button id="buyNow">Comprar ahora</button>
 
-  <!-- Texto animado -->
-  <div class="animated-text-container" id="services">
-    <div class="animated-text"> Envío Estándar gratuito en cualquier compra superior a 40 € </div>
-  </div>
-
-  <!-- Filtros-->
-  <div class="filters">
-    <div class="dropdown" data-filter="categoria">
-      <button class="dropbtn">Categoría ▾</button>
-      <div class="dropdown-content">
-        <a href="#" data-value="all">Todas</a>
-        <a href="#" data-value="Ropa">Ropa</a>
-        <a href="#" data-value="Calzado">Calzado</a>
-        <a href="#" data-value="Electrónica">Electrónica</a>
-        <a href="#" data-value="Hogar">Hogar</a>
-      </div>
-    </div>
-
-    <div class="dropdown" data-filter="genero">
-      <button class="dropbtn">Género ▾</button>
-      <div class="dropdown-content">
-        <a href="#" data-value="all">Todos</a>
-        <a href="#" data-value="Mujer">Mujer</a>
-        <a href="#" data-value="Hombre">Hombre</a>
-      </div>
-    </div>
-
-    <div class="dropdown" data-filter="precio">
-      <button class="dropbtn">Ordenar por ▾</button>
-      <div class="dropdown-content">
-        <a href="#" data-value="relevancia">Relevancia</a>
-        <a href="#" data-value="asc">Menor a mayor precio</a>
-        <a href="#" data-value="desc">Mayor a menor precio</a>
-      </div>
-    </div>
-    <button class="apply-btn" id="applyFilters">Aplicar filtros</button>
-  </div>
-   
- <!-- Overlay y panel de carrito -->
-  <div id="cart-overlay" class="cart-overlay"></div>
-  <div id="cart-panel" class="cart-panel">
-    <div class="cart-header">
-      <h3>Tu carrito</h3>
-      <button id="cart-close" class="cart-close" aria-label="Cerrar">✕</button>
-    </div>
-
-    <div id="cart-items" class="cart-items"></div>
-
-    <footer class="cart-footer">
-      <div class="cart-summary">
-        <span>Subtotal</span>
-        <strong id="cart-total">0,00 €</strong>
-      </div>
-      <div class="cart-actions">
-        <button id="cart-clear" class="cart-btn sec">Vaciar</button>
-        <button id="cart-checkout" class="cart-btn pri">Finalizar compra</button>
-      </div>
-    </footer>
-
-
-<div class="product-page">
-  <!-- IZQUIERDA -->
-  <div class="product-images">
-    <img id="mainImage" class="main-image">
-    <div class="gallery" id="gallery"></div>
-  </div>
-
-  <!-- DERECHA -->
-  <div class="product-info">
-    <h1 id="productName"></h1>
-    <p class="price" id="productPrice"></p>
-
-    <label>Cantidad</label>
-    <input type="number" min="1" value="1">
-
-    <label>Color</label>
-    <select>
-      <option>Negro</option>
-      <option>Blanco</option>
-      <option>Azul</option>
-    </select>
-
-    <label>Talla</label>
-    <select>
-      <option>S</option>
-      <option>M</option>
-      <option>L</option>
-      <option>XL</option>
-    </select>
-
-    <p class="size-info">📏 Consulta la guía de tallas antes de comprar.</p>
-
-    <h3>Acerca del producto</h3>
-    <p>
-      Producto de alta calidad, fabricado con materiales duraderos
-      y diseñado para un uso cómodo y moderno.
-    </p>
-
-    <h3>Envío</h3>
-    <p>🚚 Envío gratis en 48–72 horas</p>
-
-    <button class="buy-now">Comprar ahora</button>
-  </div>
-</div>
-
-<script src="script.js" defer></script> 
   <script src="producto.js"></script> 
  
 </body>
